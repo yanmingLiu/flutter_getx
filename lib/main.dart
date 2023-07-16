@@ -10,6 +10,8 @@ import 'app/routes/app_pages.dart';
 import 'app/theme/theme_service.dart';
 import 'generated/locales.g.dart';
 
+bool isLogin = false;
+
 void main() async {
   await GetStorage.init();
 
@@ -18,11 +20,25 @@ void main() async {
 
   Get.put<ThemeService>(ThemeService());
 
-  runApp(
-    GetMaterialApp(
+  runApp(const App());
+
+  // 修改安卓状态栏颜色
+  if (Platform.isAndroid) {
+    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+      statusBarColor: Colors.transparent,
+    ));
+  }
+}
+
+class App extends StatelessWidget {
+  const App({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return GetMaterialApp(
       title: "Application",
       translationsKeys: AppTranslation.translations,
-      initialRoute: AppPages.INITIAL,
+      initialRoute: isLogin ? AppPages.INITIAL : AppPages.INITIAL_LOGIN,
       getPages: AppPages.routes,
       locale: const Locale('zh', 'CN'),
       localeListResolutionCallback: (locales, supportedLocales) {
@@ -30,13 +46,8 @@ void main() async {
         return;
       },
       theme: ThemeService.to.themeData,
-      themeMode: ThemeMode.light, // ⚠️Fixes Theme not changing on System Dark Mode
-    ),
-  );
-  // 修改安卓状态栏颜色
-  if (Platform.isAndroid) {
-    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-      statusBarColor: Colors.transparent,
-    ));
+      // ⚠️Fixes Theme not changing on System Dark Mode
+      themeMode: ThemeMode.light,
+    );
   }
 }
