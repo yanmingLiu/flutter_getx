@@ -2,7 +2,7 @@
 
 class ZegoStream {}
 
-abstract class RTCCnctListener {
+abstract class RtcCnctListener {
   /// 房间断开
   void onRtcRoomDisconnected;
 

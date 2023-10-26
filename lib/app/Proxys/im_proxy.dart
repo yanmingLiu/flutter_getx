@@ -22,7 +22,7 @@ abstract class RoomAttributesListener {
 
 abstract class InvitationListener {
   /// 被邀请者收到的呼叫邀请的通知回调。
-  void onCallInvitationReceived({String info, String callID});
+  void onCallInvitationReceived(String info, String callID);
 
   /// 邀请者收到的接受邀请的通知回调。
   void onCallInvitationAccepted(String info);
@@ -34,10 +34,13 @@ abstract class InvitationListener {
   void onCallInvitationTimeout(String callID);
 }
 
+// TODO: Delegate
+class ZIMUserInfo {}
+
 abstract class ImDispatchEventListener {
   /// 其他成员加入房间的回调。
-  void onRoomMemberJoined;
+  void onRoomMemberJoined(List<ZIMUserInfo> memberList, String roomID);
 
   /// 其他成员离开房间的回调。
-  void onRoomMemberLeft;
+  void onRoomMemberLeft(List<ZIMUserInfo> memberList, String roomID);
 }
