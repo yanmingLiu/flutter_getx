@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
 
 class LoginController extends GetxController {
-
+  var bottomTextFieldVisibility = false.obs;
 }

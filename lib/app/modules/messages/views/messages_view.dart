@@ -5,19 +5,15 @@ import 'package:get/get.dart';
 import '../controllers/messages_controller.dart';
 
 class MessagesView extends GetView<MessagesController> {
-  const MessagesView({Key? key}) : super(key: key);
+  const MessagesView({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('MessagesView'),
+        title: const Text('Bottom TextField'),
       ),
-      body: const Center(
-        child: Text(
-          'MessagesView is working',
-          style: TextStyle(fontSize: 20),
-        ),
-      ),
+      body: const Center(child: Text('Message List')),
     );
   }
 }
