@@ -10,6 +10,7 @@ abstract class Routes {
   static const PROFILE = _Paths.PROFILE;
   static const ADD = _Paths.ADD;
   static const VIDEO_FEED = _Paths.VIDEO_FEED;
+  static const seatView = _Paths.seatView;
 }
 
 abstract class _Paths {
@@ -21,4 +22,5 @@ abstract class _Paths {
   static const PROFILE = '/profile';
   static const ADD = '/add';
   static const VIDEO_FEED = '/video-feed';
+  static const seatView = '/seatView';
 }

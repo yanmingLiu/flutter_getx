@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:getx_demo1/app/widgets/seat_view.dart';
 
 import '../controllers/friend_controller.dart';
 
@@ -12,12 +13,7 @@ class FriendView extends GetView<FriendController> {
       appBar: AppBar(
         title: const Text('FriendView'),
       ),
-      body: const Center(
-        child: Text(
-          'FriendView is working',
-          style: TextStyle(fontSize: 20),
-        ),
-      ),
+      body: SeatView(),
     );
   }
 }
