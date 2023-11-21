@@ -20,9 +20,9 @@ class Controller extends GetxController {
   }
 
   void onPressed() {
-    seats[2].level = 20;
-    seats[5].level = 50;
-    seats[0].level = 50;
+    seats[1].level = 20;
+    seats[2].level = 50;
+    seats[3].level = 50;
     update();
   }
 }
