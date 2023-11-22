@@ -34,6 +34,13 @@ class ProfileView extends GetView<ProfileController> {
               ),
               onTap: () => _changeLanguage(),
             ),
+            ListTile(
+              leading: const Icon(Icons.language),
+              title: const Text(
+                '显示',
+              ),
+              onTap: () => controller.showBall(context),
+            ),
           ],
         ),
       ),

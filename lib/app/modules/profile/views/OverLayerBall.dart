@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 class OverLayerBall {
   static OverlayEntry? _holder;
   static late Widget view;
+  static bool isDismissed = false;
 
   static void remove() {
     _holder?.remove();
@@ -14,12 +15,21 @@ class OverLayerBall {
 
     remove();
 
-    final GlobalKey<_DraggableState> draggableKey = GlobalKey<_DraggableState>();
-
     final OverlayEntry overlayEntry = OverlayEntry(builder: (context) {
       return Positioned(
         top: MediaQuery.of(context).size.height * 0.7,
-        child: _buildDraggable(draggableKey),
+        child: Draggable(
+          feedback: view,
+          onDragStarted: () {
+            print('onDragStarted:');
+          },
+          onDragEnd: (detail) {
+            print('onDragEnd:${detail.offset}');
+            createDragTarget(offset: detail.offset, context: context);
+          },
+          childWhenDragging: Container(),
+          child: view,
+        ),
       );
     });
 
@@ -28,27 +38,18 @@ class OverLayerBall {
     _holder = overlayEntry;
   }
 
-  static Widget _buildDraggable(GlobalKey<_DraggableState> draggableKey) {
-    return Draggable(
-      key: draggableKey,
-      feedback: view,
-      onDragStarted: () {
-        print('onDragStarted:');
-      },
-      onDragEnd: (detail) {
-        print('onDragEnd:${detail.offset}');
-        createDragTarget(offset: detail.offset, context: draggableKey.currentContext!);
-      },
-      childWhenDragging: Container(),
-      child: view,
-    );
-  }
-
   static void refresh() {
     _holder?.markNeedsBuild();
   }
 
+  static void dismiss() {
+    isDismissed = true;
+    remove();
+  }
+
   static void createDragTarget({required Offset offset, required BuildContext context}) {
+    if (isDismissed) return;
+
     _holder?.remove();
 
     _holder = OverlayEntry(builder: (context) {
@@ -65,8 +66,8 @@ class OverLayerBall {
             : offset.dy < maxY
                 ? offset.dy
                 : maxY,
-        left: isLeft ? 0 : null,
-        right: isLeft ? null : 0,
+        left: isLeft ? 20 : null,
+        right: isLeft ? null : 20,
         child: DragTarget(
           onWillAccept: (data) {
             print('onWillAccept: $data');
@@ -80,7 +81,18 @@ class OverLayerBall {
             print('onLeave');
           },
           builder: (BuildContext context, List<dynamic> incoming, List<dynamic> rejected) {
-            return _buildDraggable(context);
+            return Draggable(
+              feedback: view,
+              onDragStarted: () {
+                print('onDragStarted:');
+              },
+              onDragEnd: (detail) {
+                print('onDragEnd:${detail.offset}');
+                createDragTarget(offset: detail.offset, context: context);
+              },
+              childWhenDragging: Container(),
+              child: view,
+            );
           },
         ),
       );
