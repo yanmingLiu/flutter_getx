@@ -17,14 +17,15 @@ class OverLayerBall {
 
     final OverlayEntry overlayEntry = OverlayEntry(builder: (context) {
       return Positioned(
-        top: MediaQuery.of(context).size.height * 0.7,
+        bottom: MediaQuery.of(context).padding.bottom + kBottomNavigationBarHeight + 20,
+        right: 20,
         child: Draggable(
           feedback: view,
           onDragStarted: () {
-            print('onDragStarted:');
+            debugPrint('onDragStarted:');
           },
           onDragEnd: (detail) {
-            print('onDragEnd:${detail.offset}');
+            debugPrint('onDragEnd:${detail.offset}');
             createDragTarget(offset: detail.offset, context: context);
           },
           childWhenDragging: Container(),
@@ -52,13 +53,21 @@ class OverLayerBall {
 
     _holder?.remove();
 
+    final double screenWidth = MediaQuery.of(context).size.width;
+    final double screenHeight = MediaQuery.of(context).size.height;
+    const double padding = 20.0;
+
     _holder = OverlayEntry(builder: (context) {
       bool isLeft = true;
-      if (offset.dx + 100 > MediaQuery.of(context).size.width / 2) {
+      if (offset.dx > (screenWidth - padding * 2) / 2) {
         isLeft = false;
       }
 
-      final double maxY = MediaQuery.of(context).size.height - 100;
+      final double maxY = screenHeight -
+          MediaQuery.of(context).padding.top -
+          MediaQuery.of(context).padding.bottom -
+          kBottomNavigationBarHeight -
+          20;
 
       return Positioned(
         top: offset.dy < 50
@@ -70,24 +79,24 @@ class OverLayerBall {
         right: isLeft ? null : 20,
         child: DragTarget(
           onWillAccept: (data) {
-            print('onWillAccept: $data');
+            debugPrint('onWillAccept: $data');
             return true;
           },
           onAccept: (data) {
-            print('onAccept: $data');
+            debugPrint('onAccept: $data');
             // refresh();
           },
           onLeave: (data) {
-            print('onLeave');
+            debugPrint('onLeave');
           },
           builder: (BuildContext context, List<dynamic> incoming, List<dynamic> rejected) {
             return Draggable(
               feedback: view,
               onDragStarted: () {
-                print('onDragStarted:');
+                debugPrint('onDragStarted:');
               },
               onDragEnd: (detail) {
-                print('onDragEnd:${detail.offset}');
+                debugPrint('onDragEnd:${detail.offset}');
                 createDragTarget(offset: detail.offset, context: context);
               },
               childWhenDragging: Container(),

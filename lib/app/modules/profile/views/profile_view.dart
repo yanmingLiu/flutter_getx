@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:getx_demo1/app/modules/profile/views/OverLayerBall.dart';
 import 'package:getx_demo1/app/theme/theme_service.dart';
 import 'package:getx_demo1/generated/locales.g.dart';
 
@@ -36,10 +37,36 @@ class ProfileView extends GetView<ProfileController> {
             ),
             ListTile(
               leading: const Icon(Icons.language),
-              title: const Text(
-                '显示',
+              title: Text(
+                LocaleKeys.overlayer.tr,
               ),
-              onTap: () => controller.showBall(context),
+              onTap: () {
+                OverLayerBall.show(
+                  context: context,
+                  newView: GestureDetector(
+                    onTap: () {
+                      print('object');
+                    },
+                    child: Container(
+                      width: 50,
+                      height: 50,
+                      decoration: const BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Colors.blue,
+                      ),
+                      child: Container(
+                        // color: Colors.amber,
+                        child: const Center(
+                          child: Text(
+                            '1',
+                            style: TextStyle(fontSize: 20),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                );
+              },
             ),
           ],
         ),

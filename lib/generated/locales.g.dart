@@ -27,6 +27,7 @@ class LocaleKeys {
   static const language = 'language';
   static const english = 'english';
   static const chinese = 'chinese';
+  static const overlayer = 'overlayer';
 }
 
 class Locales {
@@ -47,6 +48,7 @@ class Locales {
     'language': '语言',
     'english': '英文',
     'chinese': '中文',
+    'overlayer': '悬浮球',
   };
   static const en_US = {
     'login': 'Login',
@@ -65,5 +67,6 @@ class Locales {
     'language': 'Language',
     'english': 'English',
     'chinese': 'Chinese',
+    'overlayer': 'Overlayer',
   };
 }

@@ -14,5 +14,6 @@
   "system_model": "System Model",
   "language": "Language",
   "english": "English",
-  "chinese": "Chinese"
+  "chinese": "Chinese",
+  "overlayer": "Overlayer"
 }
