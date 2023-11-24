@@ -165,17 +165,17 @@ class SeatView extends StatelessWidget {
     return Column(
       children: [
         ElevatedButton(onPressed: controller.onPressed, child: const Text('跟新动画')),
-        GetBuilder<Controller>(
-          builder: (_) {
-            return GridView.builder(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 4,
-              ),
-              itemCount: controller.seats.length,
-              itemBuilder: (BuildContext context, int index) {
-                final seat = controller.seats[index];
+        GridView.builder(
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 4,
+          ),
+          itemCount: controller.seats.length,
+          itemBuilder: (BuildContext context, int index) {
+            final seat = controller.seats[index];
+            return GetBuilder<Controller>(
+              builder: (_) {
                 return RoomSeatCell(
                   seat: seat,
                   width: 60,

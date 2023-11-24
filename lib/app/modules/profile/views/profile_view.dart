@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-
 import 'package:get/get.dart';
-import 'package:getx_demo1/app/modules/profile/views/OverLayerBall.dart';
+import 'package:getx_demo1/app/modules/profile/views/over_layer_ball.dart';
 import 'package:getx_demo1/app/theme/theme_service.dart';
 import 'package:getx_demo1/generated/locales.g.dart';
 
@@ -59,7 +58,7 @@ class ProfileView extends GetView<ProfileController> {
                         child: const Center(
                           child: Text(
                             '1',
-                            style: TextStyle(fontSize: 20),
+                            style: TextStyle(fontSize: 20, decoration: TextDecoration.none),
                           ),
                         ),
                       ),
