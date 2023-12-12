@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-
 import 'package:get/get.dart';
+import 'package:getx_demo1/app/widgets/emblem_list_page.dart';
 
 import '../controllers/messages_controller.dart';
 
@@ -9,11 +9,8 @@ class MessagesView extends GetView<MessagesController> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Bottom TextField'),
-      ),
-      body: const Center(child: Text('Message List')),
+    return const Scaffold(
+      body: NestScrollViewPage(),
     );
   }
 }

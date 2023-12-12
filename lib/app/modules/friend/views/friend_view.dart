@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'package:get/get.dart';
 import 'package:getx_demo1/app/widgets/seat_view.dart';
 

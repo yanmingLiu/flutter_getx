@@ -35,19 +35,24 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(
-      title: "Application",
-      translationsKeys: AppTranslation.translations,
-      initialRoute: isLogin ? AppPages.INITIAL : AppPages.INITIAL_LOGIN,
-      getPages: AppPages.routes,
-      locale: const Locale('zh', 'CN'),
-      localeListResolutionCallback: (locales, supportedLocales) {
-        debugPrint('当前系统语言环境:$locales');
-        return;
+    return GestureDetector(
+      onTap: () {
+        FocusScope.of(context).unfocus();
       },
-      theme: ThemeService.to.themeData,
-      // ⚠️Fixes Theme not changing on System Dark Mode
-      themeMode: ThemeMode.light,
+      child: GetMaterialApp(
+        title: "Application",
+        translationsKeys: AppTranslation.translations,
+        initialRoute: isLogin ? AppPages.INITIAL : AppPages.INITIAL_LOGIN,
+        getPages: AppPages.routes,
+        locale: const Locale('zh', 'CN'),
+        localeListResolutionCallback: (locales, supportedLocales) {
+          debugPrint('当前系统语言环境:$locales');
+          return;
+        },
+        theme: ThemeService.to.themeData,
+        // ⚠️Fixes Theme not changing on System Dark Mode
+        themeMode: ThemeMode.light,
+      ),
     );
   }
 }
