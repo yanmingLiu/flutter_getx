@@ -42,25 +42,54 @@ class ProfileView extends GetView<ProfileController> {
               onTap: () {
                 OverLayerBall.show(
                   context: context,
-                  newView: GestureDetector(
+                  horizontalMargin: 8.0,
+                  bottomMargin: 100,
+                  child: GestureDetector(
                     onTap: () {
                       print('object');
+                      OverLayerBall.remove();
                     },
                     child: Container(
-                      width: 50,
-                      height: 50,
-                      decoration: const BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: Colors.blue,
-                      ),
-                      child: Container(
-                        // color: Colors.amber,
-                        child: const Center(
-                          child: Text(
-                            '1',
-                            style: TextStyle(fontSize: 20, decoration: TextDecoration.none),
+                      width: 68,
+                      height: 80,
+                      color: Colors.amber,
+                      child: Stack(
+                        children: [
+                          Align(
+                            alignment: Alignment.topRight,
+                            child: Container(
+                              width: 24,
+                              height: 24,
+                              color: Colors.red,
+                            ),
                           ),
-                        ),
+                          Align(
+                            alignment: Alignment.bottomLeft,
+                            child: RotatingContainer(
+                              child: Container(
+                                width: 56,
+                                height: 56,
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: Colors.blue,
+                                  border: Border.all(
+                                    color: Colors.red,
+                                    width: 2,
+                                  ),
+                                ),
+                                child: const Center(
+                                  child: Text(
+                                    '1',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      decoration: TextDecoration.none,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   ),

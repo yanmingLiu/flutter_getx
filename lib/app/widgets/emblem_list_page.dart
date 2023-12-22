@@ -152,10 +152,12 @@ class EmabedPageView extends StatefulWidget {
 class _EmabedPageViewState extends State<EmabedPageView> with TickerProviderStateMixin {
   final tabs = ['美食', '风景', '娱乐'];
   final secoundsTabs = ['九寨沟', '普吉岛', '芭提雅'];
+  final thirdTabs = ['娱乐1', '娱乐2', '娱乐3'];
   // 外层的控制器
   late final _tabContorller = TabController(length: tabs.length, vsync: this);
   // 嵌套的控制器
   late final _secoudContorller = TabController(length: secoundsTabs.length, vsync: this);
+  late final _thirdContorller = TabController(length: thirdTabs.length, vsync: this);
 
   @override
   void dispose() {
@@ -225,6 +227,40 @@ class _EmabedPageViewState extends State<EmabedPageView> with TickerProviderStat
                         ),
                       );
                     }
+                    if (e == '娱乐') {
+                      // 嵌套 PageView
+                      return KeepAliveWrapper(
+                        child: Column(
+                          children: [
+                            TabBar(
+                              tabs: thirdTabs.map((e) => Tab(text: e)).toList(),
+                              controller: _thirdContorller,
+                              onTap: (index) {
+                                controller2?.animateTo(
+                                  MediaQuery.of(context).size.width * index,
+                                  duration: const Duration(milliseconds: 300),
+                                  curve: Curves.linear,
+                                );
+                              },
+                            ),
+                            Expanded(
+                              child: PageView(
+                                controller: controller2,
+                                physics: physic,
+                                onPageChanged: (index) {
+                                  _thirdContorller.animateTo(index);
+                                },
+                                children: thirdTabs
+                                    .map(
+                                      (e) => ListViewPage(title: e),
+                                    )
+                                    .toList(),
+                              ),
+                            ),
+                          ],
+                        ),
+                      );
+                    }
 
                     return ListViewPage(title: e);
                   },
@@ -258,12 +294,12 @@ class ListViewPage extends StatelessWidget {
       alignment: Alignment.center,
       child: Column(
         children: [
-          Text(
-            title,
-            style: const TextStyle(
-              fontSize: 20.0,
-            ),
-          ),
+          // Text(
+          //   title,
+          //   style: const TextStyle(
+          //     fontSize: 20.0,
+          //   ),
+          // ),
           Expanded(
             child: KeepAliveWrapper(
               child: ListView.builder(

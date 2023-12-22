@@ -10,15 +10,20 @@ class OverLayerBall {
     _holder = null;
   }
 
-  static void show({required BuildContext context, required Widget newView}) {
-    view = newView;
+  static void show({
+    required BuildContext context,
+    required Widget child,
+    required double horizontalMargin,
+    required double bottomMargin,
+  }) {
+    view = child;
 
     remove();
 
     final OverlayEntry overlayEntry = OverlayEntry(builder: (context) {
       return Positioned(
-        bottom: MediaQuery.of(context).padding.bottom + kBottomNavigationBarHeight + 20,
-        right: 20,
+        bottom: bottomMargin,
+        right: horizontalMargin,
         child: Draggable(
           feedback: view,
           onDragStarted: () {
@@ -26,7 +31,12 @@ class OverLayerBall {
           },
           onDragEnd: (detail) {
             debugPrint('onDragEnd:${detail.offset}');
-            createDragTarget(offset: detail.offset, context: context);
+            createDragTarget(
+              offset: detail.offset,
+              context: context,
+              horizontalMargin: horizontalMargin,
+              bottomMargin: bottomMargin,
+            );
           },
           childWhenDragging: Container(),
           child: view,
@@ -48,35 +58,43 @@ class OverLayerBall {
     remove();
   }
 
-  static void createDragTarget({required Offset offset, required BuildContext context}) {
+  static void createDragTarget({
+    required Offset offset,
+    required BuildContext context,
+    required double horizontalMargin,
+    required double bottomMargin,
+  }) {
     if (isDismissed) return;
 
     _holder?.remove();
 
-    final double screenWidth = MediaQuery.of(context).size.width;
-    final double screenHeight = MediaQuery.of(context).size.height;
-    const double padding = 20.0;
-
     _holder = OverlayEntry(builder: (context) {
+      final double screenWidth = MediaQuery.of(context).size.width;
+      final double screenHeight = MediaQuery.of(context).size.height;
+      final double maxWidth = screenWidth - horizontalMargin * 2;
+
+      final double maxY = screenHeight -
+          MediaQuery.of(context).padding.top //
+          -
+          kBottomNavigationBarHeight //
+          -
+          bottomMargin; //
+
+      const double top = 50.0;
+
       bool isLeft = true;
-      if (offset.dx > (screenWidth - padding * 2) / 2) {
+      if (offset.dx > maxWidth / 2) {
         isLeft = false;
       }
 
-      final double maxY = screenHeight -
-          MediaQuery.of(context).padding.top -
-          MediaQuery.of(context).padding.bottom -
-          kBottomNavigationBarHeight -
-          20;
-
       return Positioned(
-        top: offset.dy < 50
-            ? 50
+        top: offset.dy < top
+            ? top
             : offset.dy < maxY
                 ? offset.dy
                 : maxY,
-        left: isLeft ? 20 : null,
-        right: isLeft ? null : 20,
+        left: isLeft ? horizontalMargin : null,
+        right: isLeft ? null : horizontalMargin,
         child: DragTarget(
           onWillAccept: (data) {
             debugPrint('onWillAccept: $data');
@@ -97,7 +115,12 @@ class OverLayerBall {
               },
               onDragEnd: (detail) {
                 debugPrint('onDragEnd:${detail.offset}');
-                createDragTarget(offset: detail.offset, context: context);
+                createDragTarget(
+                  offset: detail.offset,
+                  context: context,
+                  horizontalMargin: horizontalMargin,
+                  bottomMargin: bottomMargin,
+                );
               },
               childWhenDragging: Container(),
               child: view,
@@ -107,5 +130,38 @@ class OverLayerBall {
       );
     });
     Overlay.of(context).insert(_holder!);
+  }
+}
+
+class RotatingContainer extends StatefulWidget {
+  const RotatingContainer({super.key, required this.child});
+
+  final Widget child;
+
+  @override
+  State<RotatingContainer> createState() => _RotatingContainerState();
+}
+
+class _RotatingContainerState extends State<RotatingContainer> with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 2),
+    )..repeat();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return RotationTransition(turns: _controller, child: widget.child);
   }
 }
