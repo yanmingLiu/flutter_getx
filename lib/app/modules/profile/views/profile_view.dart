@@ -4,6 +4,7 @@ import 'package:getx_demo1/app/modules/profile/views/over_layer_ball.dart';
 import 'package:getx_demo1/app/theme/theme_service.dart';
 import 'package:getx_demo1/generated/locales.g.dart';
 
+import '../../../routes/app_pages.dart';
 import '../controllers/profile_controller.dart';
 
 class ProfileView extends GetView<ProfileController> {
@@ -35,68 +36,79 @@ class ProfileView extends GetView<ProfileController> {
               onTap: () => _changeLanguage(),
             ),
             ListTile(
-              leading: const Icon(Icons.language),
+              leading: const Icon(Icons.back_hand),
               title: Text(
                 LocaleKeys.overlayer.tr,
               ),
+              onTap: () => _showBall(context),
+            ),
+            ListTile(
+              leading: const Icon(Icons.golf_course),
+              title: const Text(
+                '自定义TabBar+pageView',
+              ),
               onTap: () {
-                OverLayerBall.show(
-                  context: context,
-                  horizontalMargin: 8.0,
-                  bottomMargin: 100,
-                  child: GestureDetector(
-                    onTap: () {
-                      print('object');
-                      OverLayerBall.remove();
-                    },
-                    child: Container(
-                      width: 68,
-                      height: 80,
-                      color: Colors.amber,
-                      child: Stack(
-                        children: [
-                          Align(
-                            alignment: Alignment.topRight,
-                            child: Container(
-                              width: 24,
-                              height: 24,
-                              color: Colors.red,
-                            ),
-                          ),
-                          Align(
-                            alignment: Alignment.bottomLeft,
-                            child: RotatingContainer(
-                              child: Container(
-                                width: 56,
-                                height: 56,
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color: Colors.blue,
-                                  border: Border.all(
-                                    color: Colors.red,
-                                    width: 2,
-                                  ),
-                                ),
-                                child: const Center(
-                                  child: Text(
-                                    '1',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      decoration: TextDecoration.none,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                );
+                Get.toNamed(Routes.tabView);
               },
             ),
           ],
+        ),
+      ),
+    );
+  }
+
+  void _showBall(BuildContext context) {
+    OverLayerBall.show(
+      context: context,
+      horizontalMargin: 8.0,
+      bottomMargin: 100,
+      child: GestureDetector(
+        onTap: () {
+          print('object');
+          OverLayerBall.remove();
+        },
+        child: Container(
+          width: 68,
+          height: 80,
+          color: Colors.amber,
+          child: Stack(
+            children: [
+              Align(
+                alignment: Alignment.topRight,
+                child: Container(
+                  width: 24,
+                  height: 24,
+                  color: Colors.red,
+                ),
+              ),
+              Align(
+                alignment: Alignment.bottomLeft,
+                child: RotatingContainer(
+                  child: Container(
+                    width: 56,
+                    height: 56,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Colors.blue,
+                      border: Border.all(
+                        color: Colors.red,
+                        width: 2,
+                      ),
+                    ),
+                    child: const Center(
+                      child: Text(
+                        '1',
+                        style: TextStyle(
+                          color: Colors.white,
+                          decoration: TextDecoration.none,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

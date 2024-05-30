@@ -9,6 +9,7 @@ class AppTheme {
       titleTextStyle: TextStyle(
         fontSize: 18,
         fontWeight: FontWeight.w600,
+        color: Colors.black,
       ),
     ),
   );
@@ -20,6 +21,7 @@ class AppTheme {
       titleTextStyle: TextStyle(
         fontSize: 18,
         fontWeight: FontWeight.w600,
+        color: Colors.white,
       ),
     ),
   );
