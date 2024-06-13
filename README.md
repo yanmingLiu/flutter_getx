@@ -24,3 +24,29 @@ samples, guidance on mobile development, and a full API reference.
 ```
 get generate locales assets/locales
 ```
+
+## 常用库
+
+```
+// 屏幕适配
+flutter_screenutil: ^5.9.0
+
+// 下拉刷新
+easy_refresh: ^3.3.4
+
+// 状态管理
+get: ^4.6.6
+
+// 本地存储
+flutter_secure_storage: ^9.0.0
+
+// 数据库
+sqflite: ^2.3.3+1
+sqlite3_flutter_libs: ^0.5.21
+sqlite_viewer: ^1.0.5
+
+// log
+
+  logger: ^2.2.0
+  sprintf: ^7.0.0
+```
