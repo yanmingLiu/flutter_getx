@@ -69,3 +69,16 @@ dev_dependencies:
   build_runner: ^2.1.2
 
 ```
+
+## 问题：
+
+### 当使用底部弹出页面的时候，前一个页面会向左移动一下，配置路由的时候添加fullscreenDialog: true, 解决问题。
+
+```
+GetPage(
+      name: subscribePageB3,
+      page: () => const SubscribePageB3(),
+      transition: Transition.downToUp,
+      fullscreenDialog: true,
+    ),
+```
