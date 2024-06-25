@@ -1,20 +1,3 @@
-# getx_demo1
-
-A new Flutter project.
-
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-* [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-* [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials, 
-samples, guidance on mobile development, and a full API reference.
-
 ## 国际化
 
 * [get_cli](https://github.com/jonataslaw/get_cli/blob/master/README-zh_CN.md)
@@ -63,11 +46,26 @@ in_app_purchase_storekit: ^0.3.13+1
 in_app_purchase_android: ^0.3.2
 // 本地存储
 flutter_secure_storage: ^9.0.0
-// 数据库
-sqflite: ^2.3.3+1
-sqlite3_flutter_libs: ^0.5.21
-sqlite_viewer: ^1.0.5
 // log
 logger: ^2.2.0
 sprintf: ^7.0.0
+
+// 数据库 相关
+sqflite: ^2.3.3+1
+sqlite3_flutter_libs: ^0.5.21
+sqlite_viewer: ^1.0.5
+drift: ^2.18.0
+
+floor是一个数据库orm工具 pubspec.yaml添加以下依赖，floor_generator和build_runner是协助生成数据库代码，
+命令是 flutter packages pub run build_runner build，
+生成后如果有改动则用flutter packages pub run build_runner watch，
+让生成的代码保持最新。
+
+dependencies:
+  floor: ^1.3.0  # SQLite工具
+
+dev_dependencies:
+  floor_generator: ^1.3.0
+  build_runner: ^2.1.2
+
 ```
