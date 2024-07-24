@@ -7,7 +7,7 @@ environment:
 
 dependencies:
   cupertino_icons: ^1.0.2
-  get: 4.6.5
+  get: ^4.6.6
   lottie: ^2.7.0
   get_storage: ^2.1.1
   flutter_smart_dialog: ^4.9.7+9
