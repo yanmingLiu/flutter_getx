@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
+import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
@@ -52,6 +52,9 @@ class App extends StatelessWidget {
         theme: ThemeService.to.themeData,
         // ⚠️Fixes Theme not changing on System Dark Mode
         themeMode: ThemeMode.light,
+        // ⚠️ 初始化FlutterSmartDialog
+        navigatorObservers: [FlutterSmartDialog.observer],
+        builder: FlutterSmartDialog.init(),
       ),
     );
   }

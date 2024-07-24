@@ -1,4 +1,7 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
 import 'package:getx_demo1/app/modules/profile/views/over_layer_ball.dart';
 import 'package:getx_demo1/app/theme/theme_service.dart';
@@ -15,6 +18,18 @@ class ProfileView extends GetView<ProfileController> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('ProfileView'),
+        actions: [
+          Builder(
+            builder: (context) {
+              return IconButton(
+                onPressed: () {
+                  scalePoint(context);
+                },
+                icon: const Icon(Icons.help),
+              );
+            },
+          ),
+        ],
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -54,6 +69,41 @@ class ProfileView extends GetView<ProfileController> {
           ],
         ),
       ),
+    );
+  }
+
+  void scalePoint(BuildContext context) {
+    SmartDialog.showAttach(
+      targetContext: context,
+      alignment: Alignment.bottomCenter,
+      builder: (_) {
+        return Container(
+          margin: const EdgeInsets.fromLTRB(60, 0, 10, 0),
+          child: Stack(
+            alignment: Alignment.topRight,
+            children: <Widget>[
+              Container(
+                width: 20,
+                height: 20,
+                color: Colors.white,
+                transform: Matrix4.rotationZ(pi / 4),
+              ),
+              Container(
+                margin: const EdgeInsets.only(top: 7),
+                padding: const EdgeInsets.all(24),
+                decoration: const BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.all(Radius.circular(16)),
+                ),
+                child: const Text(
+                  '1 text message: 2 gems\n1 audio message: 4 gems\nCall AI characters: 10 gems/min\nGenerate image: 8 gems/image\nGenerate video: 10 gems/video',
+                  textAlign: TextAlign.start,
+                ),
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 
