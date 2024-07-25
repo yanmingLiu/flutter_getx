@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
 import 'package:getx_demo1/app/widgets/custom_cupertino_switch.dart';
 import 'package:getx_demo1/app/widgets/gradient_bound_painter.dart';
@@ -46,12 +47,19 @@ class VideoFeedView extends GetView<VideoFeedController> {
   Widget _buildTags() {
     final tags = ['OC', 'BDSM', 'Teacher'];
     return Container(
-      height: 40,
       color: randomColor(),
-      child: Wrap(
-        spacing: 4,
-        runSpacing: 4,
-        children: tags.asMap().entries.map((entry) => _buildTag(text: entry.value)).toList(),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text('渐变边框'),
+          const SizedBox(height: 16),
+          Wrap(
+            spacing: 4,
+            runSpacing: 4,
+            children: tags.asMap().entries.map((entry) => _buildTag(text: entry.value)).toList(),
+          ),
+          const SizedBox(height: 16),
+        ],
       ),
     );
   }
@@ -96,17 +104,22 @@ class VideoFeedView extends GetView<VideoFeedController> {
     );
   }
 
-  GradientText _buildGradientText() {
-    return const GradientText(
-      data: 'I Love Your',
-      gradient: LinearGradient(colors: [
-        Color(0xFFFF82AC),
-        Color(0xFFFFEFA2),
-      ]),
-      style: TextStyle(
-        fontSize: 50,
-        fontWeight: FontWeight.bold,
-      ),
+  Widget _buildGradientText() {
+    return const Row(
+      children: [
+        Text('渐变文字'),
+        GradientText(
+          data: 'I Love You',
+          gradient: LinearGradient(colors: [
+            Color(0xFFFF82AC),
+            Color(0xFFFFEFA2),
+          ]),
+          style: TextStyle(
+            fontSize: 50,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ],
     );
   }
 
@@ -116,7 +129,7 @@ class VideoFeedView extends GetView<VideoFeedController> {
       color: randomColor(),
       child: Row(
         children: [
-          const Text('开关'),
+          const Text('自定义开关'),
           const SizedBox(width: 40),
           Obx(
             () => CustomCupertinoSwitch(
@@ -150,7 +163,8 @@ class VideoFeedView extends GetView<VideoFeedController> {
             progressColor: Colors.white,
             borderRadius: 4,
             onProgress: (double value) {
-              print('Current progress: $value');
+              // print('Current progress: $value');
+              SmartDialog.showToast('加载完成');
             },
           ),
         ],
