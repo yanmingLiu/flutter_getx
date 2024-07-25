@@ -41,6 +41,7 @@ class App extends StatelessWidget {
       },
       child: GetMaterialApp(
         title: "Application",
+        debugShowCheckedModeBanner: false,
         translationsKeys: AppTranslation.translations,
         initialRoute: isLogin ? AppPages.INITIAL : AppPages.INITIAL_LOGIN,
         getPages: AppPages.routes,

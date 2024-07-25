@@ -66,6 +66,24 @@ class ProfileView extends GetView<ProfileController> {
                 Get.toNamed(Routes.tabView);
               },
             ),
+            ListTile(
+              leading: const Icon(Icons.folder),
+              title: const Text(
+                '数据库操作',
+              ),
+              onTap: () {
+                Get.toNamed(Routes.dbView);
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.data_exploration),
+              title: const Text(
+                '数据库预览',
+              ),
+              onTap: () {
+                Get.toNamed(Routes.dbPreview);
+              },
+            ),
           ],
         ),
       ),

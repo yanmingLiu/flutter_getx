@@ -1,4 +1,7 @@
+import 'package:drift_db_viewer/drift_db_viewer.dart';
 import 'package:get/get.dart';
+import 'package:getx_demo1/app/db/database.dart';
+import 'package:getx_demo1/app/modules/profile/views/db_view.dart';
 
 import '../modules/home/bindings/home_binding.dart';
 import '../modules/home/views/home_view.dart';
@@ -29,6 +32,14 @@ class AppPages {
     GetPage(
       name: tabView,
       page: () => const CustomTabView(),
+    ),
+    GetPage(
+      name: Routes.dbView,
+      page: () => const DbView(),
+    ),
+    GetPage(
+      name: Routes.dbPreview,
+      page: () => DriftDbViewer(Database()),
     ),
   ];
 }
