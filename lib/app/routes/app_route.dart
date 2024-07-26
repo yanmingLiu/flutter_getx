@@ -9,23 +9,25 @@ import '../modules/login/bindings/login_binding.dart';
 import '../modules/login/views/login_view.dart';
 import '../modules/profile/views/custom_tab_view.dart';
 
-part 'app_routes.dart';
+class AppRoute {
+  AppRoute._();
 
-class AppPages {
-  AppPages._();
+  // 路由路径常量
+  static const String mian = '/';
+  static const String login = '/login';
+  static const String tabView = '/tab-view';
+  static const String dbView = '/db-view';
+  static const String dbPreview = '/db-preview';
 
-  static const INITIAL = Routes.HOME;
-  static const INITIAL_LOGIN = Routes.LOGIN;
-  static const tabView = Routes.tabView;
-
-  static final routes = [
+  // 路由定义列表
+  static final List<GetPage> routes = [
     GetPage(
-      name: INITIAL,
+      name: mian,
       page: () => const HomeView(),
       binding: HomeBinding(),
     ),
     GetPage(
-      name: INITIAL_LOGIN,
+      name: login,
       page: () => const LoginView(),
       binding: LoginBinding(),
     ),
@@ -34,11 +36,11 @@ class AppPages {
       page: () => const CustomTabView(),
     ),
     GetPage(
-      name: Routes.dbView,
+      name: dbView,
       page: () => const DbView(),
     ),
     GetPage(
-      name: Routes.dbPreview,
+      name: dbPreview,
       page: () => DriftDbViewer(Database()),
     ),
   ];

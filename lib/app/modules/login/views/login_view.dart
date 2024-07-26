@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-
 import 'package:get/get.dart';
+import 'package:getx_demo1/app/routes/app_route.dart';
 import 'package:getx_demo1/app/widgets/bottom_text_field.dart';
-import 'package:getx_demo1/app/routes/app_pages.dart';
 import 'package:getx_demo1/generated/locales.g.dart';
 
 import '../controllers/login_controller.dart';
@@ -30,7 +29,7 @@ class LoginView extends GetView<LoginController> {
             children: [
               ElevatedButton(
                 onPressed: () {
-                  Get.offAllNamed(AppPages.INITIAL);
+                  Get.offAllNamed(AppRoute.mian);
                 },
                 child: Text(LocaleKeys.login.tr),
               ),

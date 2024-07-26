@@ -33,8 +33,14 @@ class InAppPurchaseManager {
     if (response.notFoundIDs.isNotEmpty) {
       debugPrint('[iap] Products not found: ${response.notFoundIDs}');
     }
-    _consumableProductDetails = response.productDetails.where((pd) => _consumableIds.contains(pd.id)).toList();
-    _subscriptionProductDetails = response.productDetails.where((pd) => _subscriptionIds.contains(pd.id)).toList();
+    _consumableProductDetails = response.productDetails.where((pd) => _consumableIds.contains(pd.id)).toList()
+      ..sort(
+        (a, b) => a.rawPrice > b.rawPrice ? 1 : -1,
+      );
+    _subscriptionProductDetails = response.productDetails.where((pd) => _subscriptionIds.contains(pd.id)).toList()
+      ..sort(
+        (a, b) => a.rawPrice > b.rawPrice ? 1 : -1,
+      );
   }
 
   // Get consumable product details

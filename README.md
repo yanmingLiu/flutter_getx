@@ -103,3 +103,49 @@ GetPage(
       fullscreenDialog: true,
     ),
 ```
+
+### [GetxController释放问题](https://juejin.cn/post/7005003323753365517)
+
+在我们使用GetX的时候，可能没什么GetxController未被释放的感觉，这种情况，是因为我们一般都是用了getx的那一套路由跳转api（Get.to、Get.toName...）之类：使用Get.toName，肯定需要使用GetPage；如果使用Get.to，是不需要在GetPage中注册的，Get.to的内部有一个添加到GetPageRoute的操作
+通过上面会在GetPage注册可知，说明在我们跳转页面的时候，GetX会拿你到页面信息存储起来，加以管理，下面俩种场景会导致GetxController无法释放
+
+GetxController可被自动释放的条件
+* GetPage+Get.toName配套使用，可释放
+* 直接使用Get.to，可释放
+
+GetxController无法被自动释放场景
+* 未使用GetX提供的路由跳转：直接使用原生路由api的跳转操作
+* 这样会直接导致GetX无法感知对应页面GetxController的生命周期，会导致其无法释放
+
+有个最优解方案，就算你不使用Getx路由，也能很轻松回收各个页面的GetXController
+
+```dart
+void main() {
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: HomePage,
+      ///此处配置下！
+      navigatorObservers: [GetXRouterObserver()],
+    );
+  }
+}
+
+///自定义这个关键类！！！！！！
+class GetXRouterObserver extends NavigatorObserver {
+  @override
+  void didPush(Route<dynamic> route, Route<dynamic>? previousRoute) {
+    RouterReportManager.reportCurrentRoute(route);
+  }
+
+  @override
+  void didPop(Route<dynamic> route, Route<dynamic>? previousRoute) async {
+    RouterReportManager.reportRouteDispose(route);
+  }
+}
+
+```

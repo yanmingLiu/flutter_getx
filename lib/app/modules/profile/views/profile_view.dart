@@ -3,11 +3,11 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
-import 'package:getx_demo1/app/modules/profile/views/over_layer_ball.dart';
+import 'package:getx_demo1/app/routes/app_route.dart';
 import 'package:getx_demo1/app/theme/theme_service.dart';
+import 'package:getx_demo1/app/widgets/over_layer_ball.dart';
 import 'package:getx_demo1/generated/locales.g.dart';
 
-import '../../../routes/app_pages.dart';
 import '../controllers/profile_controller.dart';
 
 class ProfileView extends GetView<ProfileController> {
@@ -63,7 +63,7 @@ class ProfileView extends GetView<ProfileController> {
                 '自定义TabBar+pageView',
               ),
               onTap: () {
-                Get.toNamed(Routes.tabView);
+                Get.toNamed(AppRoute.tabView);
               },
             ),
             ListTile(
@@ -72,7 +72,7 @@ class ProfileView extends GetView<ProfileController> {
                 '数据库操作',
               ),
               onTap: () {
-                Get.toNamed(Routes.dbView);
+                Get.toNamed(AppRoute.dbView);
               },
             ),
             ListTile(
@@ -81,7 +81,7 @@ class ProfileView extends GetView<ProfileController> {
                 '数据库预览',
               ),
               onTap: () {
-                Get.toNamed(Routes.dbPreview);
+                Get.toNamed(AppRoute.dbPreview);
               },
             ),
           ],

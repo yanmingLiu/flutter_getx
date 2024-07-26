@@ -164,7 +164,9 @@ class VideoFeedView extends GetView<VideoFeedController> {
             borderRadius: 4,
             onProgress: (double value) {
               // print('Current progress: $value');
-              SmartDialog.showToast('加载完成');
+              if (value == 1.0) {
+                SmartDialog.showToast('加载完成');
+              }
             },
           ),
         ],

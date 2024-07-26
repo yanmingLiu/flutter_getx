@@ -4,9 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
+import 'package:get/get_navigation/src/router_report.dart';
 import 'package:get_storage/get_storage.dart';
 
-import 'app/routes/app_pages.dart';
+import 'app/routes/app_route.dart';
 import 'app/theme/theme_service.dart';
 import 'generated/locales.g.dart';
 
@@ -43,8 +44,8 @@ class App extends StatelessWidget {
         title: "Application",
         debugShowCheckedModeBanner: false,
         translationsKeys: AppTranslation.translations,
-        initialRoute: isLogin ? AppPages.INITIAL : AppPages.INITIAL_LOGIN,
-        getPages: AppPages.routes,
+        initialRoute: isLogin ? AppRoute.mian : AppRoute.login,
+        getPages: AppRoute.routes,
         locale: const Locale('zh', 'CN'),
         localeListResolutionCallback: (locales, supportedLocales) {
           debugPrint('当前系统语言环境:$locales');
@@ -54,9 +55,25 @@ class App extends StatelessWidget {
         // ⚠️Fixes Theme not changing on System Dark Mode
         themeMode: ThemeMode.light,
         // ⚠️ 初始化FlutterSmartDialog
-        navigatorObservers: [FlutterSmartDialog.observer],
+        navigatorObservers: [
+          FlutterSmartDialog.observer,
+          GetXRouterObserver(), // 手动让getx感知路由
+        ],
         builder: FlutterSmartDialog.init(),
       ),
     );
+  }
+}
+
+///自定义这个关键类！！！！！！
+class GetXRouterObserver extends NavigatorObserver {
+  @override
+  void didPush(Route<dynamic> route, Route<dynamic>? previousRoute) {
+    RouterReportManager.reportCurrentRoute(route);
+  }
+
+  @override
+  void didPop(Route<dynamic> route, Route<dynamic>? previousRoute) async {
+    RouterReportManager.reportRouteDispose(route);
   }
 }
