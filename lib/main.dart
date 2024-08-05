@@ -6,6 +6,7 @@ import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
 import 'package:get/get_navigation/src/router_report.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:getx_demo1/app/manager/log_event_manager.dart';
 
 import 'app/routes/app_route.dart';
 import 'app/theme/theme_service.dart';
@@ -29,6 +30,12 @@ void main() async {
       statusBarColor: Colors.transparent,
     ));
   }
+
+  // 初始化日志上报
+  ServiceLocator.register<LogEventManager>(LogEventManager());
+
+  // 使用全局的 reportEvent 函数
+  logEvent('test_event', parameters: {'key': 'value'});
 }
 
 class App extends StatelessWidget {
