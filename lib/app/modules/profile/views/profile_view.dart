@@ -5,6 +5,7 @@ import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
 import 'package:getx_demo1/app/routes/app_route.dart';
 import 'package:getx_demo1/app/theme/theme_service.dart';
+import 'package:getx_demo1/app/widgets/image_slider.dart';
 import 'package:getx_demo1/app/widgets/over_layer_ball.dart';
 import 'package:getx_demo1/generated/locales.g.dart';
 
@@ -82,6 +83,15 @@ class ProfileView extends GetView<ProfileController> {
               ),
               onTap: () {
                 Get.toNamed(AppRoute.dbPreview);
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.data_exploration),
+              title: const Text(
+                'ImageSlider',
+              ),
+              onTap: () {
+                Get.to(const ImageSlider());
               },
             ),
           ],
