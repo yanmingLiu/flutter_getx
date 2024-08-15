@@ -2,7 +2,7 @@ import 'package:drift_db_viewer/drift_db_viewer.dart';
 import 'package:get/get.dart';
 import 'package:getx_demo1/app/db/database.dart';
 import 'package:getx_demo1/app/modules/profile/views/db_view.dart';
-import 'package:getx_demo1/app/widgets/image_slider.dart';
+import 'package:getx_demo1/app/modules/profile/views/image_slider_page.dart';
 
 import '../modules/home/bindings/home_binding.dart';
 import '../modules/home/views/home_view.dart';
@@ -30,7 +30,7 @@ class AppRoute {
     GetPage(name: dbPreview, page: () => DriftDbViewer(Database())),
     GetPage(
       name: imageSlider,
-      page: () => const ImageSlider(),
+      page: () => const ImageSliderPage(),
       popGesture: false,
       preventDuplicates: true, // 防止重复进入
     ),

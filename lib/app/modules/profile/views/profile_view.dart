@@ -3,9 +3,9 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
+import 'package:getx_demo1/app/modules/profile/views/image_slider_page.dart';
 import 'package:getx_demo1/app/routes/app_route.dart';
 import 'package:getx_demo1/app/theme/theme_service.dart';
-import 'package:getx_demo1/app/widgets/image_slider.dart';
 import 'package:getx_demo1/app/widgets/over_layer_ball.dart';
 import 'package:getx_demo1/generated/locales.g.dart';
 
@@ -91,7 +91,7 @@ class ProfileView extends GetView<ProfileController> {
                 'ImageSlider',
               ),
               onTap: () {
-                Get.to(const ImageSlider());
+                Get.to(const ImageSliderPage());
               },
             ),
           ],
