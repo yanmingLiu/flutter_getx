@@ -1,17 +1,8 @@
 // 抽象的策略接口
+import 'package:getx_demo1/app/manager/log_service.dart';
+
 abstract class AnalyticsStrategy {
   Future<void> logEvent(String name, {Map<String, dynamic>? parameters});
-}
-
-// 日志记录类
-class Logger {
-  void info(String message) {
-    print('🚩 INFO: $message');
-  }
-
-  void error(String message) {
-    print('🚩 ERROR: $message');
-  }
 }
 
 // 依赖注入容器
@@ -29,15 +20,13 @@ class ServiceLocator {
 
 // 事件上报管理类
 class LogEventManager {
-  final Logger _logger = Logger();
-
   List<String> allStrategies = ['firebase', 'another_platform'];
 
   LogEventManager() {
     // 注册所有策略
     ServiceLocator.register<FirebaseAnalyticsStrategy>(FirebaseAnalyticsStrategy());
     ServiceLocator.register<AnotherPlatformAnalyticsStrategy>(AnotherPlatformAnalyticsStrategy());
-    ServiceLocator.register<Logger>(_logger);
+    ServiceLocator.register<LogService>(LogService());
   }
 
   Future<void> logEvent(
@@ -58,11 +47,11 @@ class LogEventManager {
           await anotherPlatformStrategy.logEvent(name, parameters: parameters);
           break;
         default:
-          _logger.error('Unsupported strategy type: $type');
+          log.e('Unsupported strategy type: $type');
       }
     }
 
-    _logger.info('Event reported: $name, parameters: $parameters, strategies: $strategyTypes');
+    log.i('Event reported: $name, parameters: $parameters, strategies: $strategyTypes');
   }
 }
 

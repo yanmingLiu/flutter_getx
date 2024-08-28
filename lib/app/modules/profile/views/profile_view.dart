@@ -3,6 +3,8 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
+import 'package:getx_demo1/app/manager/log_event_manager.dart';
+import 'package:getx_demo1/app/manager/log_service.dart';
 import 'package:getx_demo1/app/modules/profile/views/image_slider_page.dart';
 import 'package:getx_demo1/app/routes/app_route.dart';
 import 'package:getx_demo1/app/theme/theme_service.dart';
@@ -61,7 +63,7 @@ class ProfileView extends GetView<ProfileController> {
             ListTile(
               leading: const Icon(Icons.golf_course),
               title: const Text(
-                '自定义TabBar+pageView',
+                'TabBar+pageView',
               ),
               onTap: () {
                 Get.toNamed(AppRoute.tabView);
@@ -70,7 +72,7 @@ class ProfileView extends GetView<ProfileController> {
             ListTile(
               leading: const Icon(Icons.folder),
               title: const Text(
-                '数据库操作',
+                'db view',
               ),
               onTap: () {
                 Get.toNamed(AppRoute.dbView);
@@ -79,7 +81,7 @@ class ProfileView extends GetView<ProfileController> {
             ListTile(
               leading: const Icon(Icons.data_exploration),
               title: const Text(
-                '数据库预览',
+                'db preview',
               ),
               onTap: () {
                 Get.toNamed(AppRoute.dbPreview);
@@ -92,6 +94,15 @@ class ProfileView extends GetView<ProfileController> {
               ),
               onTap: () {
                 Get.to(const ImageSliderPage());
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.data_exploration),
+              title: const Text(
+                'log preview',
+              ),
+              onTap: () {
+                Get.to(const LogViewerPage());
               },
             ),
           ],
@@ -136,6 +147,7 @@ class ProfileView extends GetView<ProfileController> {
   }
 
   void _showBall(BuildContext context) {
+    logEvent('show_ball', parameters: {'click': DateTime.now().toString()});
     OverLayerBall.show(
       context: context,
       horizontalMargin: 8.0,
@@ -193,6 +205,8 @@ class ProfileView extends GetView<ProfileController> {
   }
 
   void _changeLanguage() {
+    logEvent('change_language', parameters: {'click': DateTime.now().toString()});
+
     Get.bottomSheet(
       IntrinsicHeight(
         child: Container(
@@ -230,6 +244,8 @@ class ProfileView extends GetView<ProfileController> {
   }
 
   void _changeTheme() {
+    logEvent('change_theme', parameters: {'click': DateTime.now().toString()});
+
     Get.bottomSheet(
       IntrinsicHeight(
         child: Container(
