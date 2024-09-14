@@ -8,23 +8,30 @@ class InAppPurchaseManager {
   // Singleton instance
   static final InAppPurchaseManager _instance = InAppPurchaseManager._internal();
   factory InAppPurchaseManager() => _instance;
-  InAppPurchaseManager._internal();
+  InAppPurchaseManager._internal() {
+    listenToPurchaseUpdates();
+  }
 
   final InAppPurchase _inAppPurchase = InAppPurchase.instance;
   final FlutterSecureStorage _storage = const FlutterSecureStorage();
   StreamSubscription<List<PurchaseDetails>>? _subscription;
 
   final Set<String> _consumableIds = {'160Gems', '720Gems', '3300Gems', '6500Gems'};
-
   final Set<String> _subscriptionIds = {'weekly', 'monthly', 'yearly', 'yearlyhalf'};
 
-  List<ProductDetails>? _consumableProductDetails;
-  List<ProductDetails>? _subscriptionProductDetails;
+  List<ProductDetails>? _consumableList;
+  List<ProductDetails>? _subscriptionList;
+
+  // Get consumable product details
+  List<ProductDetails>? get consumableList => _consumableList;
+
+  // Get subscription product details
+  List<ProductDetails>? get subscriptionList => _subscriptionList;
 
   // Query product details
   Future<void> queryProductDetails() async {
     // Check if product details are already cached
-    if (_consumableProductDetails != null && _subscriptionProductDetails != null) {
+    if (_consumableList != null && _subscriptionList != null) {
       debugPrint('[iap] Using cached product details');
       return;
     }
@@ -33,21 +40,15 @@ class InAppPurchaseManager {
     if (response.notFoundIDs.isNotEmpty) {
       debugPrint('[iap] Products not found: ${response.notFoundIDs}');
     }
-    _consumableProductDetails = response.productDetails.where((pd) => _consumableIds.contains(pd.id)).toList()
+    _consumableList = response.productDetails.where((pd) => _consumableIds.contains(pd.id)).toList()
       ..sort(
         (a, b) => a.rawPrice > b.rawPrice ? 1 : -1,
       );
-    _subscriptionProductDetails = response.productDetails.where((pd) => _subscriptionIds.contains(pd.id)).toList()
+    _subscriptionList = response.productDetails.where((pd) => _subscriptionIds.contains(pd.id)).toList()
       ..sort(
         (a, b) => a.rawPrice > b.rawPrice ? 1 : -1,
       );
   }
-
-  // Get consumable product details
-  List<ProductDetails>? get consumableProductDetails => _consumableProductDetails;
-
-  // Get subscription product details
-  List<ProductDetails>? get subscriptionProductDetails => _subscriptionProductDetails;
 
   // Purchase a product
   Future<void> purchaseProduct(ProductDetails productDetails) async {
