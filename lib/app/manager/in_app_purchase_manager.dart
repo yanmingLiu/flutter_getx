@@ -73,12 +73,22 @@ class InAppPurchaseManager {
   Future<void> _processPurchaseDetails(List<PurchaseDetails> purchaseDetailsList) async {
     for (var purchaseDetails in purchaseDetailsList) {
       if (purchaseDetails.status == PurchaseStatus.purchased) {
+        debugPrint('[iap] 新购买: ${purchaseDetails.productID}');
         bool isProcessed = await _isPurchaseProcessed(purchaseDetails.purchaseID);
         if (!isProcessed) {
           await _verifyAndCompletePurchase(purchaseDetails);
         }
+      } else if (purchaseDetails.status == PurchaseStatus.restored) {
+        // 处理恢复的购买
+        debugPrint('[iap] 恢复购买: ${purchaseDetails.productID}');
+        bool isProcessed = await _isPurchaseProcessed(purchaseDetails.purchaseID);
+        if (!isProcessed) {
+          await _markPurchaseAsProcessed(purchaseDetails.purchaseID);
+        }
       } else if (purchaseDetails.status == PurchaseStatus.error) {
         debugPrint('[iap] Purchase failed: ${purchaseDetails.error}');
+      } else if (purchaseDetails.status == PurchaseStatus.canceled) {
+        debugPrint('[iap] 取消购买: ${purchaseDetails.error}');
       }
       if (purchaseDetails.pendingCompletePurchase) {
         await _inAppPurchase.completePurchase(purchaseDetails);
