@@ -71,28 +71,47 @@ class InAppPurchaseManager {
 
   // Process purchase details
   Future<void> _processPurchaseDetails(List<PurchaseDetails> purchaseDetailsList) async {
-    for (var purchaseDetails in purchaseDetailsList) {
-      if (purchaseDetails.status == PurchaseStatus.purchased) {
-        debugPrint('[iap] 新购买: ${purchaseDetails.productID}');
-        bool isProcessed = await _isPurchaseProcessed(purchaseDetails.purchaseID);
+    if (purchaseDetailsList.isEmpty) return;
+
+    // 根据 transactionDate 对列表进行排序，获取最新的购买记录
+    purchaseDetailsList.sort((a, b) {
+      // 将 transactionDate 从 String 转换为 int（时间戳），并处理 null 情况
+      int dateA = int.tryParse(a.transactionDate ?? '0') ?? 0;
+      int dateB = int.tryParse(b.transactionDate ?? '0') ?? 0;
+
+      // 按时间降序排序
+      return dateB.compareTo(dateA);
+    });
+
+    // 处理最新的购买记录
+    PurchaseDetails latestPurchaseDetails = purchaseDetailsList.first;
+
+    switch (latestPurchaseDetails.status) {
+      case PurchaseStatus.purchased:
+      case PurchaseStatus.restored:
+        debugPrint(
+            '[iap] ${latestPurchaseDetails.status == PurchaseStatus.purchased ? '新购买' : '恢复购买'}: ${latestPurchaseDetails.productID}');
+        bool isProcessed = await _isPurchaseProcessed(latestPurchaseDetails.purchaseID);
         if (!isProcessed) {
-          await _verifyAndCompletePurchase(purchaseDetails);
+          await _verifyAndCompletePurchase(latestPurchaseDetails);
         }
-      } else if (purchaseDetails.status == PurchaseStatus.restored) {
-        // 处理恢复的购买
-        debugPrint('[iap] 恢复购买: ${purchaseDetails.productID}');
-        bool isProcessed = await _isPurchaseProcessed(purchaseDetails.purchaseID);
-        if (!isProcessed) {
-          await _markPurchaseAsProcessed(purchaseDetails.purchaseID);
-        }
-      } else if (purchaseDetails.status == PurchaseStatus.error) {
-        debugPrint('[iap] Purchase failed: ${purchaseDetails.error}');
-      } else if (purchaseDetails.status == PurchaseStatus.canceled) {
-        debugPrint('[iap] 取消购买: ${purchaseDetails.error}');
-      }
-      if (purchaseDetails.pendingCompletePurchase) {
-        await _inAppPurchase.completePurchase(purchaseDetails);
-      }
+        break;
+
+      case PurchaseStatus.error:
+        debugPrint('[iap] Purchase failed: ${latestPurchaseDetails.error}');
+        break;
+
+      case PurchaseStatus.canceled:
+        debugPrint('[iap] 取消购买: ${latestPurchaseDetails.error}');
+        break;
+
+      default:
+        debugPrint('[iap] 未知的购买状态: ${latestPurchaseDetails.status}');
+        break;
+    }
+
+    if (latestPurchaseDetails.pendingCompletePurchase) {
+      await _inAppPurchase.completePurchase(latestPurchaseDetails);
     }
   }
 
