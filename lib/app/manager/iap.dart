@@ -1,14 +1,15 @@
 import 'dart:async';
 
-import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
 
-class InAppPurchaseManager {
+import 'log_service.dart';
+
+class IAP {
   // Singleton instance
-  static final InAppPurchaseManager _instance = InAppPurchaseManager._internal();
-  factory InAppPurchaseManager() => _instance;
-  InAppPurchaseManager._internal() {
+  static final IAP _instance = IAP._internal();
+  factory IAP() => _instance;
+  IAP._internal() {
     listenToPurchaseUpdates();
   }
 
@@ -32,13 +33,13 @@ class InAppPurchaseManager {
   Future<void> queryProductDetails() async {
     // Check if product details are already cached
     if (_consumableList != null && _subscriptionList != null) {
-      debugPrint('[iap] Using cached product details');
+      log.d('[iap] Using cached product details');
       return;
     }
 
     final response = await _inAppPurchase.queryProductDetails(_consumableIds.union(_subscriptionIds));
     if (response.notFoundIDs.isNotEmpty) {
-      debugPrint('[iap] Products not found: ${response.notFoundIDs}');
+      log.d('[iap] Products not found: ${response.notFoundIDs}');
     }
     _consumableList = response.productDetails.where((pd) => _consumableIds.contains(pd.id)).toList()
       ..sort(
@@ -65,7 +66,7 @@ class InAppPurchaseManager {
     _subscription = _inAppPurchase.purchaseStream.listen((purchaseDetailsList) {
       _processPurchaseDetails(purchaseDetailsList);
     }, onError: (error) {
-      debugPrint('[iap] Error in purchase stream: $error');
+      log.d('[iap] Error in purchase stream: $error');
     });
   }
 
@@ -89,7 +90,7 @@ class InAppPurchaseManager {
     switch (latestPurchaseDetails.status) {
       case PurchaseStatus.purchased:
       case PurchaseStatus.restored:
-        debugPrint(
+        log.d(
             '[iap] ${latestPurchaseDetails.status == PurchaseStatus.purchased ? '新购买' : '恢复购买'}: ${latestPurchaseDetails.productID}');
         bool isProcessed = await _isPurchaseProcessed(latestPurchaseDetails.purchaseID);
         if (!isProcessed) {
@@ -98,15 +99,15 @@ class InAppPurchaseManager {
         break;
 
       case PurchaseStatus.error:
-        debugPrint('[iap] Purchase failed: ${latestPurchaseDetails.error}');
+        log.d('[iap] Purchase failed: ${latestPurchaseDetails.error}');
         break;
 
       case PurchaseStatus.canceled:
-        debugPrint('[iap] 取消购买: ${latestPurchaseDetails.error}');
+        log.d('[iap] 取消购买: ${latestPurchaseDetails.error}');
         break;
 
       default:
-        debugPrint('[iap] 未知的购买状态: ${latestPurchaseDetails.status}');
+        log.d('[iap] 未知的购买状态: ${latestPurchaseDetails.status}');
         break;
     }
 
@@ -121,13 +122,13 @@ class InAppPurchaseManager {
     if (isValid) {
       await _markPurchaseAsProcessed(purchaseDetails.purchaseID);
     } else {
-      debugPrint('[iap] Purchase verification failed for product: ${purchaseDetails.productID}');
+      log.d('[iap] Purchase verification failed for product: ${purchaseDetails.productID}');
     }
   }
 
   // Verify purchase with server (mock implementation)
   Future<bool> verifyPurchaseWithServer(PurchaseDetails purchaseDetails) async {
-    debugPrint('[iap] Verifying purchase with server for ${purchaseDetails.productID}');
+    log.d('[iap] Verifying purchase with server for ${purchaseDetails.productID}');
     return true; // Implement actual server-side verification logic here
   }
 
