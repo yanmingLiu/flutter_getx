@@ -8,6 +8,7 @@ import 'package:get/get_navigation/src/router_report.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:getx_demo1/app/manager/log_event_manager.dart';
 import 'package:getx_demo1/app/manager/log_service.dart';
+import 'package:getx_demo1/app/manager/network_service.dart';
 
 import 'app/routes/app_route.dart';
 import 'app/theme/theme_service.dart';
@@ -21,7 +22,11 @@ void main() async {
   // 初始 flutter 引擎
   WidgetsFlutterBinding.ensureInitialized();
 
+  // 初始化 ThemeService
   Get.put<ThemeService>(ThemeService());
+
+  // 异步初始化 NetworkService
+  await Get.putAsync<NetworkService>(() async => NetworkService().init());
 
   runApp(const App());
 

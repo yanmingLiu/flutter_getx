@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-
 import 'package:get/get.dart';
+import 'package:getx_demo1/app/manager/network_service.dart';
 import 'package:getx_demo1/generated/locales.g.dart';
 
 import '../controllers/home_controller.dart';
@@ -11,8 +11,14 @@ class HomeView extends GetView<HomeController> {
 
   @override
   Widget build(BuildContext context) {
+    // 使用网络监听
+    final networkService = Get.find<NetworkService>();
+
     return Scaffold(
       body: Obx(() {
+        if (!networkService.isConnected.value) {
+          return const Center(child: Text('No Network, please check your connection'));
+        }
         return IndexedStack(
           index: controller.currentIndex.value,
           children: controller.pages,

@@ -26,6 +26,7 @@ dependencies:
   drift_db_viewer: ^2.1.0
   # 工具
   logger: ^2.4.0
+  connectivity_plus: ^6.1.0
 
 dev_dependencies:
   flutter_lints: ^2.0.0
