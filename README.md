@@ -63,32 +63,51 @@ dev_dependencies:
   drift_dev: ^2.18.0
   build_runner: ^2.4.9
 
-https://drift.simonbinder.eu/docs/getting-started/
+  ```
+
 Drift 是一个功能强大的数据库库，适用于 Dart 和 Flutter 应用程序。为了支持其高级功能（如类型安全的 SQL 查询、数据库验证和迁移），它使用了在编译时运行的构建器和命令行工具。
 
+https://drift.simonbinder.eu/docs/getting-started/
+
 drift：这是定义用于访问漂移数据库的 API 的核心包。
-sqlite3_flutter_libs：将最新版本与您的 Android 或 iOS 应用一起发布。当您不sqlite3使用 Flutter 时，这不是必需的，但那时您需要注意包括自己。有关其他平台的概述，请参阅平台。请注意，该软件包将包含以下架构的原生 sqlite3 库：、和。大多数 Flutter 应用无法在 32 位 x86 设备上运行，除非进行进一步设置，因此如果您不需要构建，则应向您添加一个代码片段。否则，Play Store 可能会允许设备上的用户安装您的应用，即使它不受支持。在 Flutter 当前的原生构建系统中，drift 不幸无法为您做到这一点。sqlite3sqlite3_flutter_libsarmv8armv7x86x86_64build.gradlex86x86
+sqlite3_flutter_libs：将最新版本与您的 Android 或 iOS 应用一起发布。当您不sqlite3使用 Flutter 时，这不是必需的，但那时您需要注意包括自己。有关其他平台的概述，请参阅平台。请注意，该软件包将包含以下架构的原生 sqlite3 库：、和。大多数 Flutter 应用无法在 32 位 x86 设备上运行，除非进行进一步设置，因此如果您不需要构建，则应向您添加一个代码片段。否则，Play Store 可能会允许设备上的用户安装您的应用，即使它不受支持。在 Flutter 当前的原生构建系统中，drift 不幸无法为您做到这一点。
+
+sqlite3sqlite3_flutter_libsarmv8armv7x86x86_64build.gradlex86x86
 path_providerand path：用于查找合适的位置来存储数据库。由 Flutter 和 Dart 团队维护。
 drift_dev：此仅供开发使用的依赖项会根据您的表生成查询代码。它不会包含在您的最终应用中。
 build_runner：常用的代码生成工具，由 Dart 团队维护。
 
 您可以通过调用build_runner来执行此操作：
+一次生成所有必需的代码
 
-dart run build_runner build一次生成所有必需的代码。
-dart run build_runner watch监视源代码中的更改并通过增量重建生成代码。这适用于开发会话。
+```
+dart run build_runner build  
+```
+
+监视源代码中的更改并通过增量重建生成代码。这适用于开发会话
+
+```
+dart run build_runner watch   
+```
+
+删除生成的代码：
+
+```
+dart run build_runner build --delete-conflicting-outputs
+```
 
 floor是一个数据库orm工具 pubspec.yaml添加以下依赖，floor_generator和build_runner是协助生成数据库代码，
 命令是 flutter packages pub run build_runner build，
 生成后如果有改动则用flutter packages pub run build_runner watch，
 让生成的代码保持最新。
 
+```
 dependencies:
   floor: ^1.3.0  # SQLite工具
 
 dev_dependencies:
   floor_generator: ^1.3.0
   build_runner: ^2.1.2
-
 ```
 
 ## 问题：
@@ -96,12 +115,15 @@ dev_dependencies:
 ### 当使用底部弹出页面的时候，前一个页面会向左移动一下，配置路由的时候添加fullscreenDialog: true, 解决问题。
 
 ```
+
 GetPage(
+
       name: subscribePageB3,
       page: () => const SubscribePageB3(),
       transition: Transition.downToUp,
       fullscreenDialog: true,
     ),
+
 ```
 
 ### [GetxController释放问题](https://juejin.cn/post/7005003323753365517)
