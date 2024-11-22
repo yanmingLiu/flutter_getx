@@ -5,30 +5,28 @@ class TabPageView extends StatefulWidget {
   final List<Widget> tabContents;
   final double tabHeight;
   final Widget Function(BuildContext context, int index) separatorBuilder;
+  final Widget Function(BuildContext context, int index, bool isSelected) itemBuilder;
   final Color? backgroundColor;
-  final Color selectedColor;
-  final Color defaultColor;
-  final TextStyle selectedTextStyle;
-  final TextStyle defaultTextStyle;
   final EdgeInsetsGeometry tabPadding;
   final EdgeInsetsGeometry tabBarPadding;
   final bool animatedPageSwitch;
+  final bool allowSwipe; // 是否允许手势滑动
+  final ValueChanged<int>? onPageChanged;
 
   const TabPageView({
-    Key? key,
+    super.key,
     required this.tabTitles,
     required this.tabContents,
     required this.tabHeight,
     required this.separatorBuilder,
+    required this.itemBuilder,
     this.backgroundColor = Colors.transparent,
-    required this.selectedColor,
-    required this.defaultColor,
-    required this.selectedTextStyle,
-    required this.defaultTextStyle,
     required this.tabPadding,
     required this.tabBarPadding,
     this.animatedPageSwitch = false,
-  }) : super(key: key);
+    this.allowSwipe = true, // 默认允许滑动
+    this.onPageChanged,
+  });
 
   @override
   State<TabPageView> createState() => _TabPageViewState();
@@ -58,26 +56,33 @@ class _TabPageViewState extends State<TabPageView> with SingleTickerProviderStat
       _selectedTabIndex = index;
       _scrollToSelectedTab(index);
     });
+    if (widget.onPageChanged != null) {
+      widget.onPageChanged!(index);
+    }
   }
 
   void _scrollToSelectedTab(int index) {
-    final selectedTabIndex = index;
-    final selectedTabText = widget.tabTitles[selectedTabIndex];
-    final textPainter = TextPainter(
-      text: TextSpan(text: selectedTabText, style: widget.selectedTextStyle),
-      textDirection: TextDirection.ltr,
-    );
-    textPainter.layout();
-    final tabWidth = textPainter.width + widget.tabPadding.horizontal;
-    final scrollToOffset = (selectedTabIndex - 1) * tabWidth;
-    final containerWidth = MediaQuery.of(context).size.width - widget.tabBarPadding.horizontal;
+    final tabWidth = MediaQuery.of(context).size.width / 3; // 每个 Tab 宽度按 1/3 屏幕宽计算
+    final targetOffset = index * tabWidth - (MediaQuery.of(context).size.width - tabWidth) / 2;
 
-    if (scrollToOffset < containerWidth / 2) {
-      _scrollController.jumpTo(0);
-    } else if (scrollToOffset > _scrollController.position.maxScrollExtent - containerWidth / 2) {
-      _scrollController.jumpTo(_scrollController.position.maxScrollExtent);
+    if (targetOffset < 0) {
+      _scrollController.animateTo(
+        0,
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeInOut,
+      );
+    } else if (targetOffset > _scrollController.position.maxScrollExtent) {
+      _scrollController.animateTo(
+        _scrollController.position.maxScrollExtent,
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeInOut,
+      );
     } else {
-      _scrollController.jumpTo(scrollToOffset);
+      _scrollController.animateTo(
+        targetOffset,
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeInOut,
+      );
     }
   }
 
@@ -95,7 +100,7 @@ class _TabPageViewState extends State<TabPageView> with SingleTickerProviderStat
             separatorBuilder: widget.separatorBuilder,
             padding: widget.tabBarPadding,
             itemBuilder: (context, index) {
-              return _buildTab(widget.tabTitles[index], index);
+              return _buildTab(index);
             },
           ),
         ),
@@ -103,6 +108,9 @@ class _TabPageViewState extends State<TabPageView> with SingleTickerProviderStat
           child: PageView(
             controller: _pageController,
             onPageChanged: _handleTabSelection,
+            physics: widget.allowSwipe
+                ? const BouncingScrollPhysics()
+                : const NeverScrollableScrollPhysics(), // 根据 allowSwipe 设置滑动行为
             children: widget.tabContents,
           ),
         ),
@@ -110,9 +118,12 @@ class _TabPageViewState extends State<TabPageView> with SingleTickerProviderStat
     );
   }
 
-  Widget _buildTab(String text, int index) {
+  Widget _buildTab(int index) {
+    final isSelected = _selectedTabIndex == index;
+
     return GestureDetector(
       onTap: () {
+        _handleTabSelection(index);
         if (widget.animatedPageSwitch) {
           _pageController.animateToPage(
             index,
@@ -123,19 +134,7 @@ class _TabPageViewState extends State<TabPageView> with SingleTickerProviderStat
           _pageController.jumpToPage(index);
         }
       },
-      child: Container(
-        padding: widget.tabPadding,
-        decoration: BoxDecoration(
-          color: _selectedTabIndex == index ? widget.selectedColor : widget.defaultColor,
-          borderRadius: BorderRadius.circular(widget.tabHeight / 2),
-        ),
-        child: Center(
-          child: Text(
-            text,
-            style: _selectedTabIndex == index ? widget.selectedTextStyle : widget.defaultTextStyle,
-          ),
-        ),
-      ),
+      child: widget.itemBuilder(context, index, isSelected),
     );
   }
 }
