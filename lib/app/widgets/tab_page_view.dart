@@ -51,39 +51,38 @@ class _TabPageViewState extends State<TabPageView> with SingleTickerProviderStat
     super.dispose();
   }
 
-  void _handleTabSelection(int index) {
+  void _handleTabSelection(int index) async {
+    // 避免重复触发逻辑
+    if (_selectedTabIndex == index) return;
+
+    // 更新选中的 Tab 状态
     setState(() {
       _selectedTabIndex = index;
-      _scrollToSelectedTab(index);
     });
-    if (widget.onPageChanged != null) {
-      widget.onPageChanged!(index);
-    }
+
+    // 滚动到指定 Tab
+    await _scrollToSelectedTab(index);
+
+    // 滚动完成后执行回调
+    widget.onPageChanged?.call(index);
   }
 
-  void _scrollToSelectedTab(int index) {
-    final tabWidth = MediaQuery.of(context).size.width / 3; // 每个 Tab 宽度按 1/3 屏幕宽计算
+  Future<void> _scrollToSelectedTab(int index) async {
+    final tabWidth = MediaQuery.of(context).size.width / 3; // 每个 Tab 的宽度
     final targetOffset = index * tabWidth - (MediaQuery.of(context).size.width - tabWidth) / 2;
 
-    if (targetOffset < 0) {
-      _scrollController.animateTo(
-        0,
-        duration: const Duration(milliseconds: 300),
-        curve: Curves.easeInOut,
-      );
-    } else if (targetOffset > _scrollController.position.maxScrollExtent) {
-      _scrollController.animateTo(
-        _scrollController.position.maxScrollExtent,
-        duration: const Duration(milliseconds: 300),
-        curve: Curves.easeInOut,
-      );
-    } else {
-      _scrollController.animateTo(
-        targetOffset,
-        duration: const Duration(milliseconds: 300),
-        curve: Curves.easeInOut,
-      );
-    }
+    // 计算目标偏移量
+    final scrollOffset = targetOffset.clamp(
+      0.0,
+      _scrollController.position.maxScrollExtent,
+    );
+
+    // 滚动到目标偏移量
+    return _scrollController.animateTo(
+      scrollOffset,
+      duration: const Duration(milliseconds: 300),
+      curve: Curves.easeInOut,
+    );
   }
 
   @override
