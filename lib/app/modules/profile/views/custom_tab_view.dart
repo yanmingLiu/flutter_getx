@@ -35,6 +35,7 @@ class CustomTabView extends StatelessWidget {
         title: const Text('CustomTabView'),
       ),
       body: TabPageView(
+        backgroundColor: Colors.black,
         tabTitles: tabTitles,
         tabContents: tabContents,
         tabHeight: 40,
@@ -47,20 +48,19 @@ class CustomTabView extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 20),
               alignment: Alignment.center,
               decoration: BoxDecoration(
+                color: isSelected ? null : Colors.grey[400],
                 borderRadius: BorderRadius.circular(8),
                 gradient: isSelected
                     ? const LinearGradient(
                         colors: [Color(0xFF53B4CC), Color(0xFFEBFF4C)],
                       )
-                    : const LinearGradient(
-                        colors: [Color(0x1AF8FFC7), Color(0x1AF8FFC7)],
-                      ),
+                    : null,
               ),
               height: 30,
               child: Text(
                 tabTitles[index],
                 style: TextStyle(
-                  color: isSelected ? Colors.black : Colors.white.withOpacity(0.6),
+                  color: isSelected ? Colors.black : Colors.black.withOpacity(0.6),
                   fontSize: 16,
                   fontWeight: FontWeight.w500,
                 ),
