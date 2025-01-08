@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
+import 'package:getx_demo1/app/widgets/animated_gradient_progress_bar.dart';
 import 'package:getx_demo1/app/widgets/custom_cupertino_switch.dart';
 import 'package:getx_demo1/app/widgets/gradient_bound_painter.dart';
 import 'package:getx_demo1/app/widgets/gradient_progress_bar.dart';
@@ -37,6 +38,7 @@ class VideoFeedView extends GetView<VideoFeedController> {
           children: [
             _buildProgress(),
             _buildProgress2(),
+            _buildProgress3(),
             _buildSwitch(),
             _buildGradientText(),
             _buildTags(),
@@ -191,6 +193,28 @@ class VideoFeedView extends GetView<VideoFeedController> {
             gradientColors: [Color(0xFF53B4CC), Color(0xFFEBFF4C)], // 渐变色
             trackColor: Color(0xFF2F330F), // 轨道颜色
             borderRadius: 3, // 圆角
+          ),
+        ],
+      ),
+    );
+  }
+
+  Container _buildProgress3() {
+    return Container(
+      height: 40,
+      color: randomColor(),
+      child: Row(
+        children: [
+          const Text('进度条'),
+          const SizedBox(width: 40),
+          AnimatedGradientProgressBar(
+            progress: controller.progress, // 当前进度
+            width: 300,
+            height: 8,
+            gradientColors: const [Color(0xFF53B4CC), Color(0xFFEBFF4C)],
+            trackColor: const Color(0xFF2F330F),
+            borderRadius: 3,
+            animationDuration: const Duration(milliseconds: 500), // 动画持续时间
           ),
         ],
       ),

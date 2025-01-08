@@ -8,4 +8,6 @@ class VideoFeedController extends GetxController {
   }
 
   var isOn = false.obs;
+
+  double progress = 0.6; // 初始进度值
 }
