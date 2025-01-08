@@ -5,6 +5,7 @@ import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
 import 'package:getx_demo1/app/widgets/custom_cupertino_switch.dart';
 import 'package:getx_demo1/app/widgets/gradient_bound_painter.dart';
+import 'package:getx_demo1/app/widgets/gradient_progress_bar.dart';
 import 'package:getx_demo1/app/widgets/gradient_text.dart';
 import 'package:getx_demo1/app/widgets/progress_bar.dart';
 
@@ -35,6 +36,7 @@ class VideoFeedView extends GetView<VideoFeedController> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             _buildProgress(),
+            _buildProgress2(),
             _buildSwitch(),
             _buildGradientText(),
             _buildTags(),
@@ -168,6 +170,27 @@ class VideoFeedView extends GetView<VideoFeedController> {
                 SmartDialog.showToast('加载完成');
               }
             },
+          ),
+        ],
+      ),
+    );
+  }
+
+  Container _buildProgress2() {
+    return Container(
+      height: 40,
+      color: randomColor(),
+      child: const Row(
+        children: [
+          Text('进度条'),
+          SizedBox(width: 40),
+          GradientProgressBar(
+            progress: 0.5, // 设置进度百分比，0.0 - 1.0
+            width: 300, // 宽度
+            height: 8, // 高度
+            gradientColors: [Color(0xFF53B4CC), Color(0xFFEBFF4C)], // 渐变色
+            trackColor: Color(0xFF2F330F), // 轨道颜色
+            borderRadius: 3, // 圆角
           ),
         ],
       ),
