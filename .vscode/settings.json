@@ -1,0 +1,45 @@
+{
+    // 每行字符限制为 120
+    "dart.lineLength": 100,
+    // 启用格式化相关
+    "editor.formatOnSave": true,
+    "[dart]": {
+        "editor.formatOnSave": true,
+        "editor.codeActionsOnSave": {
+            "source.fixAll": "explicit"
+        }
+    },
+    // 保存时自动优化导入
+    "editor.codeActionsOnSave": {
+        "source.organizeImports": "explicit"
+    },
+    // 使用相对路径导入（关键配置）
+    "dart.renameFilesWithClasses": "always", // 重命名文件时自动同步 class 名
+    "dart.showLintNames": true,
+    "dart.previewUseLsp": true,
+    "dart.analysisServerFolding": true,
+    "dart.analysisExcludedFolders": [
+        "build/",
+        ".dart_tool/"
+    ],
+    "dart.importsPreferRelative": true, // ✅ 导入使用相对路径
+    // 小地图开启
+    "editor.minimap.enabled": false,
+    // 自动保存策略
+    "files.autoSave": "onFocusChange",
+    // 热重载设置
+    "dart.flutterHotReloadOnSave": true,
+    // 不调试外部库
+    "dart.debugExternalPackageLibraries": false,
+    "dart.debugSdkLibraries": false,
+    // 开启 devtools 默认页面
+    "dart.openDevTools": "flutter",
+    // UI 与终端设置
+    "window.zoomLevel": 0,
+    "terminal.integrated.defaultProfile.osx": "zsh",
+    "terminal.integrated.profiles.osx": {
+        "zsh": {
+            "path": "/bin/zsh"
+        }
+    },
+}

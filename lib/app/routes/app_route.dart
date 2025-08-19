@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:getx_demo1/app/db/database.dart';
 import 'package:getx_demo1/app/modules/profile/views/db_view.dart';
 import 'package:getx_demo1/app/modules/profile/views/image_slider_page.dart';
+import 'package:getx_demo1/app/modules/profile/views/tab_page_view.dart';
 
 import '../modules/home/bindings/home_binding.dart';
 import '../modules/home/views/home_view.dart';
@@ -20,12 +21,14 @@ class AppRoute {
   static const String dbView = '/dbView';
   static const String dbPreview = '/dbPreview';
   static const String imageSlider = '/imageSlider';
+  static const String tabPageCtr = '/tabPageCtr';
 
   // 路由定义列表
   static final List<GetPage> routes = [
     GetPage(name: mian, page: () => const HomeView(), binding: HomeBinding()),
     GetPage(name: login, page: () => const LoginView(), binding: LoginBinding()),
     GetPage(name: tabView, page: () => const CustomTabView()),
+    GetPage(name: tabPageCtr, page: () => const MyTabPage()),
     GetPage(name: dbView, page: () => const DbView()),
     GetPage(name: dbPreview, page: () => DriftDbViewer(Database())),
     GetPage(

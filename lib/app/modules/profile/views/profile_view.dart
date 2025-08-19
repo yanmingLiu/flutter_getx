@@ -70,6 +70,15 @@ class ProfileView extends GetView<ProfileController> {
               },
             ),
             ListTile(
+              leading: const Icon(Icons.golf_course),
+              title: const Text(
+                'TabBar+pageView: controller',
+              ),
+              onTap: () {
+                Get.toNamed(AppRoute.tabPageCtr);
+              },
+            ),
+            ListTile(
               leading: const Icon(Icons.folder),
               title: const Text(
                 'db view',
@@ -211,7 +220,7 @@ class ProfileView extends GetView<ProfileController> {
       IntrinsicHeight(
         child: Container(
           decoration: BoxDecoration(
-            color: Get.theme.colorScheme.background,
+            color: Get.theme.colorScheme.surface,
             borderRadius: const BorderRadius.only(
               topLeft: Radius.circular(20),
               topRight: Radius.circular(20),
@@ -250,7 +259,7 @@ class ProfileView extends GetView<ProfileController> {
       IntrinsicHeight(
         child: Container(
           decoration: BoxDecoration(
-            color: Get.theme.colorScheme.background,
+            color: Get.theme.colorScheme.surface,
             borderRadius: const BorderRadius.only(
               topLeft: Radius.circular(20),
               topRight: Radius.circular(20),

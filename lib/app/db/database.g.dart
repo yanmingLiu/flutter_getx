@@ -295,22 +295,91 @@ typedef $$TodosTableUpdateCompanionBuilder = TodosCompanion Function({
   Value<String?> description,
 });
 
+class $$TodosTableFilterComposer extends Composer<_$Database, $TodosTable> {
+  $$TodosTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get title => $composableBuilder(
+      column: $table.title, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<bool> get completed => $composableBuilder(
+      column: $table.completed, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get description => $composableBuilder(
+      column: $table.description, builder: (column) => ColumnFilters(column));
+}
+
+class $$TodosTableOrderingComposer extends Composer<_$Database, $TodosTable> {
+  $$TodosTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get title => $composableBuilder(
+      column: $table.title, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<bool> get completed => $composableBuilder(
+      column: $table.completed, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get description => $composableBuilder(
+      column: $table.description, builder: (column) => ColumnOrderings(column));
+}
+
+class $$TodosTableAnnotationComposer extends Composer<_$Database, $TodosTable> {
+  $$TodosTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get title =>
+      $composableBuilder(column: $table.title, builder: (column) => column);
+
+  GeneratedColumn<bool> get completed =>
+      $composableBuilder(column: $table.completed, builder: (column) => column);
+
+  GeneratedColumn<String> get description => $composableBuilder(
+      column: $table.description, builder: (column) => column);
+}
+
 class $$TodosTableTableManager extends RootTableManager<
     _$Database,
     $TodosTable,
     Todo,
     $$TodosTableFilterComposer,
     $$TodosTableOrderingComposer,
+    $$TodosTableAnnotationComposer,
     $$TodosTableCreateCompanionBuilder,
-    $$TodosTableUpdateCompanionBuilder> {
+    $$TodosTableUpdateCompanionBuilder,
+    (Todo, BaseReferences<_$Database, $TodosTable, Todo>),
+    Todo,
+    PrefetchHooks Function()> {
   $$TodosTableTableManager(_$Database db, $TodosTable table)
       : super(TableManagerState(
           db: db,
           table: table,
-          filteringComposer:
-              $$TodosTableFilterComposer(ComposerState(db, table)),
-          orderingComposer:
-              $$TodosTableOrderingComposer(ComposerState(db, table)),
+          createFilteringComposer: () =>
+              $$TodosTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$TodosTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$TodosTableAnnotationComposer($db: db, $table: table),
           updateCompanionCallback: ({
             Value<int> id = const Value.absent(),
             Value<String> title = const Value.absent(),
@@ -335,56 +404,25 @@ class $$TodosTableTableManager extends RootTableManager<
             completed: completed,
             description: description,
           ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: null,
         ));
 }
 
-class $$TodosTableFilterComposer
-    extends FilterComposer<_$Database, $TodosTable> {
-  $$TodosTableFilterComposer(super.$state);
-  ColumnFilters<int> get id => $state.composableBuilder(
-      column: $state.table.id,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<String> get title => $state.composableBuilder(
-      column: $state.table.title,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<bool> get completed => $state.composableBuilder(
-      column: $state.table.completed,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<String> get description => $state.composableBuilder(
-      column: $state.table.description,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-}
-
-class $$TodosTableOrderingComposer
-    extends OrderingComposer<_$Database, $TodosTable> {
-  $$TodosTableOrderingComposer(super.$state);
-  ColumnOrderings<int> get id => $state.composableBuilder(
-      column: $state.table.id,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<String> get title => $state.composableBuilder(
-      column: $state.table.title,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<bool> get completed => $state.composableBuilder(
-      column: $state.table.completed,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<String> get description => $state.composableBuilder(
-      column: $state.table.description,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-}
+typedef $$TodosTableProcessedTableManager = ProcessedTableManager<
+    _$Database,
+    $TodosTable,
+    Todo,
+    $$TodosTableFilterComposer,
+    $$TodosTableOrderingComposer,
+    $$TodosTableAnnotationComposer,
+    $$TodosTableCreateCompanionBuilder,
+    $$TodosTableUpdateCompanionBuilder,
+    (Todo, BaseReferences<_$Database, $TodosTable, Todo>),
+    Todo,
+    PrefetchHooks Function()>;
 
 class $DatabaseManager {
   final _$Database _db;
