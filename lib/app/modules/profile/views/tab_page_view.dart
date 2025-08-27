@@ -15,14 +15,22 @@ class _MyTabPageState extends State<MyTabPage> {
   void initState() {
     super.initState();
     _controller = LinkedTabPageController(
-      items: [],
+      items: ["新闻", "体育", "娱乐", "科技", "财经"],
       onIndexChanged: (index) => print("当前选中 index: $index"),
       onItemsChanged: (items) => print("数据源更新: $items"),
     );
 
     // 模拟异步加载数据
     Future.delayed(const Duration(seconds: 2), () {
-      _controller.updateItems(["新闻", "体育", "娱乐", "科技", "财经"]);
+      _controller.updateItems([
+        "新闻sfasd",
+        "体fasd 育",
+        "娱dfasd 乐",
+        "科fasdf技",
+        "财dfa 经",
+        'Custom item length',
+        'My Data Item'
+      ]);
     });
 
     // 示例：在数据未就绪时提前调用 select()
@@ -55,6 +63,7 @@ class _MyTabPageState extends State<MyTabPage> {
                 height: 44,
                 child: ListView.separated(
                   controller: _controller.scrollController,
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
                   scrollDirection: Axis.horizontal,
                   itemCount: _controller.items.length,
                   separatorBuilder: (_, __) => const SizedBox(width: 12),
