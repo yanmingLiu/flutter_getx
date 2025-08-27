@@ -17,6 +17,7 @@ class ThemeService extends GetxService with WidgetsBindingObserver {
 
   final _themeEnum = ThemeEnum.light.obs;
 
+  // themeEnum = ThemeEnum.light;
   ThemeEnum get themeEnum => _themeEnum.value;
 
   @override
