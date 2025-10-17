@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
+import 'package:getx_demo1/app/common/dio_tool_example.dart';
 import 'package:getx_demo1/app/manager/log_event_manager.dart';
 import 'package:getx_demo1/app/manager/log_service.dart';
 import 'package:getx_demo1/app/modules/profile/views/image_slider_page.dart';
@@ -112,6 +113,15 @@ class ProfileView extends GetView<ProfileController> {
               ),
               onTap: () {
                 Get.to(const LogViewerPage());
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.network_cell),
+              title: const Text(
+                'DioTool Example',
+              ),
+              onTap: () {
+                Get.to(const DioToolExamplePage());
               },
             ),
           ],

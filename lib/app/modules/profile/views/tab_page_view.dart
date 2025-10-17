@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:getx_demo1/app/widgets/kinked_tab_page_controller.dart';
+import 'package:getx_demo1/app/widgets/linked_tab_page_controller.dart';
 
 class MyTabPage extends StatefulWidget {
   const MyTabPage({super.key});
@@ -20,19 +20,6 @@ class _MyTabPageState extends State<MyTabPage> {
       onItemsChanged: (items) => print("数据源更新: $items"),
     );
 
-    // 模拟异步加载数据
-    Future.delayed(const Duration(seconds: 2), () {
-      _controller.updateItems([
-        "新闻sfasd",
-        "体fasd 育",
-        "娱dfasd 乐",
-        "科fasdf技",
-        "财dfa 经",
-        'Custom item length',
-        'My Data Item'
-      ]);
-    });
-
     // 示例：在数据未就绪时提前调用 select()
     _controller.select(3); // 会等数据 ready 后自动跳转到 "科技"
   }
@@ -43,11 +30,26 @@ class _MyTabPageState extends State<MyTabPage> {
     super.dispose();
   }
 
+  void _refresh() {
+    _controller.updateItems([
+      "新闻sfasd",
+      "体fasd 育",
+      "娱dfasd 乐",
+      "科fasdf技",
+      "财dfa 经",
+      'Custom item length',
+      'My Data Item'
+    ]);
+
+    _controller.select(0);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('MyTabPage'),
+        actions: [IconButton(onPressed: _refresh, icon: const Icon(Icons.refresh_outlined))],
       ),
       body: AnimatedBuilder(
         animation: _controller,
@@ -82,10 +84,13 @@ class _MyTabPageState extends State<MyTabPage> {
                               color: isActive ? Colors.blue : Colors.grey[300],
                               borderRadius: BorderRadius.circular(12),
                             ),
-                            child: Text(title,
-                                style: TextStyle(
-                                  color: isActive ? Colors.white : Colors.black,
-                                )),
+                            alignment: Alignment.center,
+                            child: Text(
+                              title,
+                              style: TextStyle(
+                                color: isActive ? Colors.white : Colors.black,
+                              ),
+                            ),
                           );
                         },
                       ),
