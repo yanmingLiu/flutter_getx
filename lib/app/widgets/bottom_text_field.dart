@@ -150,16 +150,16 @@ class _BottomTextFieldState extends State<BottomTextField> {
                     ElevatedButtonTheme(
                       data: ElevatedButtonThemeData(
                         style: ButtonStyle(
-                          foregroundColor: MaterialStateProperty.resolveWith(
+                          foregroundColor: WidgetStateProperty.resolveWith(
                             (states) => Colors.white,
                           ),
-                          backgroundColor: MaterialStateProperty.resolveWith<Color>(
-                            (Set<MaterialState> states) {
-                              final disabled = states.contains(MaterialState.disabled);
+                          backgroundColor: WidgetStateProperty.resolveWith<Color>(
+                            (Set<WidgetState> states) {
+                              final disabled = states.contains(WidgetState.disabled);
                               return const Color(0xff5B2DC1).withOpacity(disabled ? 0.4 : 1);
                             },
                           ),
-                          padding: MaterialStateProperty.resolveWith(
+                          padding: WidgetStateProperty.resolveWith(
                             (states) => const EdgeInsets.fromLTRB(12, 4, 12, 4),
                           ),
                         ),

@@ -9,18 +9,20 @@ get generate locales assets/locales
 ```
 
 查看哪些插件可更新
+
+```
 flutter pub outdated
+```
 
 连同 pubspec.yaml 中的版本号也自动更新到最新版本号，可以使用以下几种方式👇
-使用 Dart 官方工具 pub upgrade --major-versions
+使用 Dart 官方工具 
 
-使用 VS Code 插件（图形化方式）
+```
+pub upgrade --major-versions
+```
 
-插件名：Pubspec Assist
-	•	右键点击依赖 → 选择 “Upgrade dependency”
-	•	自动修改 pubspec.yaml 中的版本号
-	•	可选择“升级到最新版本”或“锁定到某版本”
   
+
 ## 常用库
 
 ```
@@ -157,65 +159,3 @@ NoSQL 数据库	|hive|	高性能二进制存储，支持自定义对象存储和
 ||objectbox|	性能高，支持 Dart 原生对象存储和数据观察。|	高性能、高并发场景。
 ||cloud_firestore|	云端存储，支持实时同步和强大查询能力。	|需要实时同步和云端数据存储。
 |键值存储|	get_storage|	轻量级键值存储，简单快速。|	小型设置、用户偏好存储。
-
-## 问题：
-
-* 当使用底部弹出页面的时候，前一个页面会向左移动一下，配置路由的时候添加fullscreenDialog: true, 解决问题。
-
-```
-
-GetPage(
-
-      name: subscribePageB3,
-      page: () => const SubscribePageB3(),
-      transition: Transition.downToUp,
-      fullscreenDialog: true,
-    ),
-
-```
-
-### [GetxController释放问题](https://juejin.cn/post/7005003323753365517)
-
-在我们使用GetX的时候，可能没什么GetxController未被释放的感觉，这种情况，是因为我们一般都是用了getx的那一套路由跳转api（Get.to、Get.toName...）之类：使用Get.toName，肯定需要使用GetPage；如果使用Get.to，是不需要在GetPage中注册的，Get.to的内部有一个添加到GetPageRoute的操作
-通过上面会在GetPage注册可知，说明在我们跳转页面的时候，GetX会拿你到页面信息存储起来，加以管理，下面俩种场景会导致GetxController无法释放
-
-GetxController可被自动释放的条件
-* GetPage+Get.toName配套使用，可释放
-* 直接使用Get.to，可释放
-
-GetxController无法被自动释放场景
-* 未使用GetX提供的路由跳转：直接使用原生路由api的跳转操作
-* 这样会直接导致GetX无法感知对应页面GetxController的生命周期，会导致其无法释放
-
-有个最优解方案，就算你不使用Getx路由，也能很轻松回收各个页面的GetXController
-
-```dart
-void main() {
-  runApp(MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: HomePage,
-      ///此处配置下！
-      navigatorObservers: [GetXRouterObserver()],
-    );
-  }
-}
-
-///自定义这个关键类！！！！！！
-class GetXRouterObserver extends NavigatorObserver {
-  @override
-  void didPush(Route<dynamic> route, Route<dynamic>? previousRoute) {
-    RouterReportManager.reportCurrentRoute(route);
-  }
-
-  @override
-  void didPop(Route<dynamic> route, Route<dynamic>? previousRoute) async {
-    RouterReportManager.reportRouteDispose(route);
-  }
-}
-
-```

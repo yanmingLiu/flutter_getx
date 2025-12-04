@@ -7,7 +7,7 @@ import '../controllers/home_controller.dart';
 import 'custom_icon.dart';
 
 class HomeView extends GetView<HomeController> {
-  const HomeView({Key? key}) : super(key: key);
+  const HomeView({super.key});
 
   @override
   Widget build(BuildContext context) {
