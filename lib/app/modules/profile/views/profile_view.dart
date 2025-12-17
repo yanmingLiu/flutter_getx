@@ -7,6 +7,8 @@ import 'package:getx_demo1/app/common/dio_tool_example.dart';
 import 'package:getx_demo1/app/manager/log_event_manager.dart';
 import 'package:getx_demo1/app/manager/log_service.dart';
 import 'package:getx_demo1/app/modules/profile/views/image_slider_page.dart';
+import 'package:getx_demo1/app/modules/profile/views/tab_header_view.dart';
+import 'package:getx_demo1/app/modules/profile/views/tab_header_view2.dart';
 import 'package:getx_demo1/app/routes/app_route.dart';
 import 'package:getx_demo1/app/theme/theme_service.dart';
 import 'package:getx_demo1/app/widgets/over_layer_ball.dart';
@@ -15,7 +17,7 @@ import 'package:getx_demo1/generated/locales.g.dart';
 import '../controllers/profile_controller.dart';
 
 class ProfileView extends GetView<ProfileController> {
-  const ProfileView({Key? key}) : super(key: key);
+  const ProfileView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -77,6 +79,24 @@ class ProfileView extends GetView<ProfileController> {
               ),
               onTap: () {
                 Get.toNamed(AppRoute.tabPageCtr);
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.golf_course),
+              title: const Text(
+                'TabBar+pageView+header',
+              ),
+              onTap: () {
+                Get.to(NestedHeaderTabPage());
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.golf_course),
+              title: const Text(
+                'TabBar+pageView+header2',
+              ),
+              onTap: () {
+                Get.to(NestedHeaderTabPage2());
               },
             ),
             ListTile(
