@@ -3,7 +3,7 @@ version: 1.0.0+1
 publish_to: none
 description: A new Flutter project.
 environment:
-  sdk: ">=3.0.1 <4.0.0"
+  sdk: '>=3.10.0 <4.0.0'
 
 dependencies:
   flutter:
@@ -48,7 +48,11 @@ dependencies:
   # 工具
   logger: ^2.4.0
   connectivity_plus: ^7.0.0
-  
+
+  # 加密
+  encrypt: ^5.0.3
+  convert: ^3.1.2
+
 
   # 网络请求
   dio: ^5.9.0

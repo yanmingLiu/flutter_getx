@@ -159,3 +159,42 @@ NoSQL 数据库	|hive|	高性能二进制存储，支持自定义对象存储和
 ||objectbox|	性能高，支持 Dart 原生对象存储和数据观察。|	高性能、高并发场景。
 ||cloud_firestore|	云端存储，支持实时同步和强大查询能力。	|需要实时同步和云端数据存储。
 |键值存储|	get_storage|	轻量级键值存储，简单快速。|	小型设置、用户偏好存储。
+
+
+
+根据你目前封装的 Vortex 网络架构，最推荐的文件夹划分方式是遵循 Clean Architecture（整洁架构） 的简化版。
+
+这种结构能确保你的加解密逻辑、网络底座、业务逻辑和 UI 状态各司其职，互不干扰。
+
+1. 项目文件夹结构图
+lib/
+├── app/                          # 应用级配置
+│   ├── app.dart                  # 入口 Widget (配置 Theme, Routing 等)
+│   ├── app_config.dart           # 环境配置 (Dev/Prod, Key等)
+│   └── app_router.dart           # 路由定义 (go_router 或 auto_route)
+│
+├── core/                         # 核心基础设施 (与业务完全无关)
+│   ├── network/                  # 网络底座 (Vortex, Cipher, HttpMethod)
+│   ├── cache/                    # 本地缓存 (Hive 或 SharedPreferences 封装)
+│   ├── analytics/                # 事件埋点基类与公共定义
+│   ├── ads/                      # 广告服务封装 (注入式 API)
+│   ├── theme/                    # 全局设计规范 (Color, Space, Font)
+│   └── utils/                    # 纯工具类 (Extension, Logger, Validators)
+│
+├── data/                         # 数据层 (实现业务逻辑的数据读写)
+│   ├── models/                   # 全局通用 Model
+│   ├── repositories/             # BaseRepository 及具体业务 Repo
+│   └── services/                 # 内部服务 (如 LocalStorageService)
+│
+├── presentation/                 # 表现层 (按业务模块划分)
+│   ├── common_widgets/           # 项目级通用组件 (CustomButton, StateView)
+│   ├── modules/                  # 业务模块
+│   │   ├── auth/                 # 认证模块 (登录、注册)
+│   │   │   ├── pages/            # 页面
+│   │   │   ├── controller/       # 状态管理 (GetX/Bloc/Provider)
+│   │   │   └── widgets/          # 模块内私有组件
+│   │   └── home/                 # 首页模块
+│   └── skeleton/                 # 骨架屏或全局 Overlay
+│
+├── result.dart                   # VortexResult 定义
+└── main.dart                     # 程序起点：执行各种 Service 初始化
