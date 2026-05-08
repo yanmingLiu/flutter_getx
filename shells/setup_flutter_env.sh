@@ -1,5 +1,9 @@
 #!/bin/bash
 
+#  给权限
+# chmod +x setup_flutter_env.sh
+# 用法: ./setup_flutter_env.sh 
+
 # 遇到错误立即停止
 set -e
 

@@ -260,6 +260,7 @@ class _RefreshableListPageState extends State<RefreshableListPage> {
   // 初始化加载数据
   Future<void> _loadInitialData() async {
     await Future.delayed(const Duration(seconds: 2));
+    if (!mounted) return;
     setState(() {
       _items.clear();
       _currentPage = 0;
@@ -273,6 +274,7 @@ class _RefreshableListPageState extends State<RefreshableListPage> {
   // 下拉刷新
   Future<void> _onRefresh() async {
     await Future.delayed(const Duration(seconds: 2));
+    if (!mounted) return;
     setState(() {
       _items.clear();
       _currentPage = 0;
@@ -287,6 +289,7 @@ class _RefreshableListPageState extends State<RefreshableListPage> {
   // 上拉加载更多
   Future<void> _onLoad() async {
     await Future.delayed(const Duration(seconds: 2));
+    if (!mounted) return;
     setState(() {
       for (int i = 0; i < 10; i++) {
         _items.add("${widget.title} - item ${_currentPage * 10 + i}");
